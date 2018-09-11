@@ -22,17 +22,19 @@ function updateSubtotal(obj) {
 
 }
 function updateTotal() {
+	//inicia com total 0
 	var total = 0;
-
+	//vai dar um loop em cada item do carrinho
 	for(var q=0;q<$('.p_quant').length;q++) {
+		//seleciona o item
 		var quant = $('.p_quant').eq(q);
-
+		//pega o preço e a quantidade e faz a mutiplicação
 		var price = quant.attr('data-price');
 		var subtotal = price * parseInt(quant.val());
-
+		//pega o valor e soma com subtotal
 		total += subtotal;
 	}
-
+	//a variavel total vai ter a soma de todos os itens do carrinho
 	$('input[name=total_price]').val(total);
 }
 function excluirProd(obj) {
@@ -45,12 +47,12 @@ function addProd(obj) {
 	var price = $(obj).attr('data-price');
 
 	$('.searchresults').hide();
-
+	//criando o html e adicionando ele na tabela 
 	if( $('input[name="quant['+id+']"]').length == 0 ) {
 		var tr = 
-		'<tr>'+
+		'<tr>'+ //adicionando o produto na tabela
 			'<td>'+name+'</td>'+
-			'<td>'+
+			'<td>'+      //quant vai ser um array
 				'<input type="number" name="quant['+id+']" class="p_quant" value="1" onchange="updateSubtotal(this)" data-price="'+price+'" />'+
 			'</td>'+
 			'<td>R$ '+price+'</td>'+

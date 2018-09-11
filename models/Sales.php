@@ -29,7 +29,7 @@ class Sales extends model {
 
 	public function addSale($id_company, $id_client, $id_user, $quant, $status) {
 		$i = new Inventory();
-
+		//Adicionando a venda com o preço zerado
 		$sql = $this->db->prepare("INSERT INTO sales SET id_company = :id_company, id_client = :id_client,  id_user = :id_user, date_sale = NOW(), total_price = :total_price, status = :status");
 		$sql->bindValue(":id_company", $id_company);
 		$sql->bindValue(":id_client", $id_client);
@@ -39,7 +39,8 @@ class Sales extends model {
 		$sql->execute();
 
 		$id_sale = $this->db->lastInsertId();
-
+		//fazendo uma consulta para pegar o valor do produto
+		//adicionando os produtos da venda
 		$total_price = 0;
 		foreach($quant as $id_prod => $quant_prod) {
 			$sql = $this->db->prepare("SELECT price FROM inventory WHERE id = :id AND id_company = :id_company");
@@ -58,14 +59,14 @@ class Sales extends model {
 				$sqlp->bindValue(":quant", $quant_prod);
 				$sqlp->bindValue(":sale_price", $price);
 				$sqlp->execute();
-
+				//Dar baixa no estoque
 				$i->decrease($id_prod, $id_company, $quant_prod, $id_user);
 
 				$total_price += $price * $quant_prod;
 			}
 
 		}
-
+		//atualiza o preço final da venda
         $sql = $this->db->prepare("UPDATE sales SET total_price = :total_price WHERE id = :id");
 		$sql->bindValue(":total_price", $total_price);
 		$sql->bindValue(":id", $id_sale);
