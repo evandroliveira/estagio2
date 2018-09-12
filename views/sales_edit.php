@@ -10,6 +10,7 @@
 R$ <?php echo number_format($sales_info['info']['total_price'], 2, ',', '.'); ?><br/><br/>
 
 <strong>Status da Venda</strong><br/>
+<!--Se não tiver permissão de edição vai aparecer somente o nome (aguardando pagamento, pago ou cancelado)-->
 <?php if($permission_edit): ?>
 <form method="POST">
 	<select name="status">

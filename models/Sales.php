@@ -115,7 +115,7 @@ class Sales extends model {
 
 		return $array;
 	}
-
+	#metodo para mudar o status da venda
 	public function changeStatus($status, $id, $id_company) {
 
 		$sql = $this->db->prepare("UPDATE sales SET status = :status WHERE id = :id AND id_company = :id_company");

@@ -79,12 +79,12 @@ class salesController extends controller {
 
         if($u->hasPermission('sales_view')) {
             $s = new Sales();
-
+            #esta variável vai guardar true ou false se tem permissão de editar ou não
             $data['permission_edit'] = $u->hasPermission('sales_edit');
 
             if(isset($_POST['status']) && $data['permission_edit']) {
                 $status = addslashes($_POST['status']);
-
+                
                 $s->changeStatus($status, $id, $u->getCompany());
 
                 header("Location: ".BASE_URL."/sales");
