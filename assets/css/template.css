@@ -246,6 +246,10 @@ table td {
     width: 250px;
     float: left;
 }
+#provider_name {
+	width: 250px;
+    float: left;
+}
 .client_add_button {
     font-size: 17px;
     height: 30px;
@@ -255,6 +259,17 @@ table td {
     margin-top: 5px;
     margin-left: 10px;
 }
+
+.provider_add_button {
+    font-size: 17px;
+    height: 30px;
+    line-height: 26px;
+    display: block;
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
 .p_quant {
 	width:60px !important;
 }

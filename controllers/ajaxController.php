@@ -36,6 +36,29 @@ class ajaxController extends controller {
     	echo json_encode($data);
     }
 
+     public function search_provider() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+        $p = new Provider();
+
+        if(isset($_GET['q']) && !empty($_GET['q'])) {
+            $q = addslashes($_GET['q']);
+
+            $provider = $p->searchProviderByName($q, $u->getCompany());
+
+            foreach($provider as $citem) {  //montando o $data
+                $data[] = array(
+                    'name' => $citem['name'],
+                    'link' => BASE_URL.'/provider/edit/'.$citem['id'],
+                    'id'   => $citem['id']
+                );
+            }
+        }
+
+        echo json_encode($data);
+    }
+
     public function search_products() {
         $data = array();
         $u = new Users();
