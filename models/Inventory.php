@@ -122,6 +122,32 @@ class Inventory extends model {
 		
 	}
 
+	public function increase($id_prod, $id_company, $quant_prod, $id_user) {
+		$sql = $this->db->prepare("UPDATE inventory SET quant = quant + $quant_prod WHERE id = :id AND id_company = :id_company");
+		$sql->bindValue(":id", $id_prod);
+		$sql->bindValue(":id_company", $id_company);
+		$sql->execute();
+		//registrando o log 
+		$this->setLog($id_prod, $id_company, $id_user, "dwn");
+		
+	}
+
+	public function getInventoryFiltered($id_company) {
+		$array = array();
+
+		$sql = $this->db->prepare("SELECT *, (min_quant-quant) as dif FROM inventory WHERE quant <= min_quant AND id_company = :id_company ORDER BY dif DESC");
+		$sql->bindValue(":id_company", $id_company);
+		$sql->execute();
+
+		if ($sql->rowCount() > 0 ) {
+			$array = $sql->fetchAll();
+		}
+
+		return $array;
+	}
+
+
+
 }
 
 

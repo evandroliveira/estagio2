@@ -23,6 +23,7 @@
                     <li><a href="<?php echo BASE_URL; ?>/sales">Vendas</a></li>
                     <li><a href="<?php echo BASE_URL; ?>/purchases">Compras</a></li>
                     <li><a href="<?php echo BASE_URL; ?>/report">Relatórios</a></li>
+                    <!--<li><a href="<?php echo BASE_URL; ?>/cashier">Caixa</a></li>-->
                 </ul>
             </div>
     	</div>

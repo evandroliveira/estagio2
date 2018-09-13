@@ -91,6 +91,9 @@ body {
 .menuarea li:nth-child(9) {
     background-image:url('../images/reports.png');
 }
+.menuarea li:nth-child(10) {
+    background-image:url('../images/cashier.png');
+}
 .area {
 	padding:15px;
 }
