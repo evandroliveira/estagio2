@@ -20,7 +20,7 @@ class purchasesController extends controller {
         $data['user_email'] = $u->getEmail();
 
         $data['statuses'] = array(
-            '0'=>'Aguardando Pgto.',
+            '0'=>'Parcelado',
             '1'=>'Pago',
             '2'=>'Cancelado'
         );
@@ -51,10 +51,16 @@ class purchasesController extends controller {
 
             if(isset($_POST['provider_id']) && !empty($_POST['provider_id'])) {
                 $provider_id = addslashes($_POST['provider_id']);
+                $id_movimento = addslashes($_POST['id_movimento']);
                 $status = addslashes($_POST['status']);
+                $descricao_movimento = addslashes($_POST['descricao_movimento']);
+                $vencimento_movimento = addslashes($_POST['vencimento_movimento']);
+                $pagamento_movimento = addslashes($_POST['pagamento_movimento']);
+                $valor_movimento = addslashes($_POST['valor_movimento']);
+
                 $quant = $_POST['quant'];
 
-                $p->addPurchases($u->getCompany(), $provider_id, $u->getId(), $quant, $status);
+                $p->addPurchases($u->getCompany(), $provider_id, $u->getId(), $quant, $status, $descricao_movimento, $id_movimento, $vencimento_movimento, $pagamento_movimento, $valor_movimento);
                 header("Location: ".BASE_URL."/purchases");
             }
             

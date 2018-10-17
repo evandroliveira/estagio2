@@ -1,0 +1,1 @@
+<h1>Checkout Transparente - Pagseguro</h1>

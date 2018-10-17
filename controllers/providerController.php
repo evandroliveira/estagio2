@@ -62,17 +62,21 @@ class providerController extends controller
                 $name = addslashes($_POST['name']);
                 $cnpj = addslashes($_POST['cnpj']);
                 $address = addslashes($_POST['address']);
-                $number = addslashes($_POST['number']);
-                $bairro = addslashes($_POST['bairro']);
-                $cep = addslashes($_POST['cep']);
-                $state = addslashes($_POST['state']);
-                $city = addslashes($_POST['city']);
+                $address_number = addslashes($_POST['address_number']);
+                $address2 = addslashes($_POST['address2']);
+                $address_neighb = addslashes($_POST['address_neighb']);
+                $address_zipcode = addslashes($_POST['address_zipcode']);
+                $address_state = addslashes($_POST['$address_state']);
+                $address_city = addslashes($_POST['address_city']);
+                $address_country = addslashes($_POST['address_country']);
                 $phone = addslashes($_POST['phone']);
                 $cellphone = addslashes($_POST['cellphone']);
                 $email = addslashes($_POST['email']);
-                $status = addslashes($_POST['status']);
+                $stars = addslashes($_POST['stars']);
+                $internal_obs = addslashes($_POST['internal_obs']);
 
-                $c->add($u->getCompany(), $name, $cnpj, $phone, $address, $number, $bairro, $cep, $state, $city, $phone, $cellphone, $email, $status);
+
+                $c->add($u->getCompany(), $name, $email, $phone, $cellphone, $cnpj, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country);
                 header("Location: " . BASE_URL . "/provider");
             }
 
@@ -99,17 +103,19 @@ class providerController extends controller
                     $name = addslashes($_POST['name']);
                     $cnpj = addslashes($_POST['cnpj']);
                     $address = addslashes($_POST['address']);
-                    $number = addslashes($_POST['number']);
-                    $bairro = addslashes($_POST['bairro']);
-                    $cep = addslashes($_POST['cep']);
-                    $state = addslashes($_POST['state']);
-                    $city = addslashes($_POST['city']);
+                    $address2 = addslashes($_POST['address2']);
+                    $address_number = addslashes($_POST['address_number']);
+                    $address_neighb = addslashes($_POST['address_neighb']);
+                    $address_zipcode = addslashes($_POST['address_zipcode']);
+                    $address_state = addslashes($_POST['$address_state']);
+                    $address_city = addslashes($_POST['address_city']);
+                    $address_country = addslashes($_POST['address_country']);
                     $phone = addslashes($_POST['phone']);
                     $cellphone = addslashes($_POST['cellphone']);
                     $email = addslashes($_POST['email']);
-                    $status = addslashes($_POST['status']);
+                    $stars = addslashes($_POST['stars']);
 
-                    $c->edit($id, $u->getCompany(), $name, $cnpj, $phone, $address, $number, $bairro, $cep, $state, $city, $phone, $cellphone, $email, $status);
+                    $c->edit($u->getCompany(), $name, $cnpj, $phone, $address, $address2, $address_number, $address_neighb, $address_zipcode, $address_state, $address_city, $address_country, $phone, $cellphone, $email, $stars);
                     header("Location: " . BASE_URL . "/provider");
                 }
 

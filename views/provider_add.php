@@ -2,7 +2,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <script type="text/javascript" src="../assets/js/jquery-1.7.1.min.js"></script>
 </head>
-<h1>Clientes - Adicionar</h1>
+<h1>Fornecedores - Adicionar</h1>
 
 <?php if(isset($error_msg) && !empty($error_msg)): ?>
     <div class="warn"><?php echo $error_msg; ?></div>
@@ -19,8 +19,11 @@
     <label for="phone">Telefone</label><br/>
     <input type="text" name="phone" /><br/><br/>
 
-    <label for="cellphone">Telefone</label><br/>
+    <label for="cellphone">Celular</label><br/>
     <input type="text" name="cellphone" /><br/><br/>
+
+    <label for="cnpj">CNPJ</label><br/>
+    <input type="text" name="cnpj" /><br/><br/>
 
     <label for="stars">Estrelas</label><br/>
     <select name="stars" id="stars">

@@ -1,4 +1,4 @@
-<h1>Vendas - Editar</h1>
+<h1>Compras - Editar</h1>
 
 <strong>Nome do Cliente:</strong><br/>
 <?php echo $sales_info['info']['client_name']; ?><br/><br/>
@@ -18,8 +18,7 @@ R$ <?php echo number_format($sales_info['info']['total_price'], 2, ',', '.'); ?>
 		<option value="<?php echo $statusKey; ?>" <?php echo ($statusKey == $sales_info['info']['status'])?'selected="selected"':''; ?>><?php echo $statusValue; ?></option>
 		<?php endforeach; ?>
 	</select><br/><br/>
-	<input type="submit"  value="Pagar" onclick="return confirm('Tem certeza que deseja dar baixa nesta conta?')"/>
-
+	<input type="submit" value="Salvar" />
 </form>
 <?php else: ?>
 <?php echo $statuses[$sales_info['info']['status']]; ?>

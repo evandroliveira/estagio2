@@ -20,10 +20,15 @@
                     <li><a href="<?php echo BASE_URL; ?>/clients">Clientes</a></li>
                     <li><a href="<?php echo BASE_URL; ?>/provider">Fornecedores</a></li>
                     <li><a href="<?php echo BASE_URL; ?>/inventory">Estoque</a></li>
-                    <li><a href="<?php echo BASE_URL; ?>/sales">Vendas</a></li>
+                    <li class="menu"><a href="<?php echo BASE_URL; ?>/sales">Vendas</a>
+                        <div class="dropdown">
+                            <a href="<?php echo BASE_URL; ?>/receive">Contas a Receber</a>
+                        </div>
+                    </li>
                     <li><a href="<?php echo BASE_URL; ?>/purchases">Compras</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/cashier">Caixa</a></li>
                     <li><a href="<?php echo BASE_URL; ?>/report">Relatórios</a></li>
-                    <!--<li><a href="<?php echo BASE_URL; ?>/cashier">Caixa</a></li>-->
+                    
                 </ul>
             </div>
     	</div>

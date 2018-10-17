@@ -22,4 +22,3 @@
 	</tr>
 	<?php endforeach; ?>
 </table>
-

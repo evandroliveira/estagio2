@@ -9,13 +9,19 @@
 
 	<label for="status">Status da Venda</label><br/>
 	<select name="status" id="status">
-		<option value="0">Aguardando Pgto.</option>
+		<option value="0">Parcelado</option>
 		<option value="1">Pago</option>
 <!--		<option value="2">Cancelado</option>-->
 	</select><br/><br/>
 
 	<label for="total_price">Preço da Venda</label><br/>
-	<input type="text" name="total_price" disabled="disabled" /><br/><br/>
+	<input type="text" name="total_price" id="n1" disabled="disabled" /><br/><br/>
+
+    <label for="total_parcel">Parcelas</label><br>
+    <input type="number" name="total_parcel"value="1" id="n2" onblur="calcular();"/><br><br>
+
+    <label for="value_parcel">Valor das Parcelas</label>
+    <input id="resultado" type="text" name="value_parcel" disabled="disabled"/><br><br>
 
 
 	<hr/>

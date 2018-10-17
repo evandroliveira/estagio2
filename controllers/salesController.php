@@ -20,9 +20,8 @@ class salesController extends controller {
         $data['user_email'] = $u->getEmail();
 
         $data['statuses'] = array(
-            '0'=>'Aguardando Pgto.',
+            '0'=>'Parcelado',
             '1'=>'Pago',
-            '2'=>'Cancelado'
         );
 
         if($u->hasPermission('sales_view')) {
@@ -46,14 +45,16 @@ class salesController extends controller {
         $data['user_email'] = $u->getEmail();
 
         if($u->hasPermission('sales_view')) {
-            $s = new Sales();
+            $s = new Sales();            
 
             if(isset($_POST['client_id']) && !empty($_POST['client_id'])) {
                 $client_id = addslashes($_POST['client_id']);
+                $total_parcel = addslashes($_POST['total_parcel']);
+                $value_parcel = addslashes($_POST['value_parcel']);
                 $status = addslashes($_POST['status']);
                 $quant = $_POST['quant'];
 
-                $s->addSale($u->getCompany(), $client_id, $u->getId(), $quant, $status);
+                $s->addSale($u->getCompany(), $client_id, $u->getId(), $quant, $total_parcel, $value_parcel, $status);
                 header("Location: ".BASE_URL."/sales");
             }
             
@@ -87,7 +88,7 @@ class salesController extends controller {
                 
                 $s->changeStatus($status, $id, $u->getCompany());
 
-                header("Location: ".BASE_URL."/sales");
+                header("Location: ".BASE_URL."/receive");
             }
 
             $data['sales_info'] = $s->getInfo($id, $u->getCompany());
@@ -97,6 +98,23 @@ class salesController extends controller {
             header("Location: ".BASE_URL);
         }
     }
+
+    function calcularParcelas($nParcelas, $dataPrimeiraParcela = null){
+          if($dataPrimeiraParcela != null){
+            $dataPrimeiraParcela = explode( "/",$dataPrimeiraParcela);
+            $dia = $dataPrimeiraParcela[0];
+            $mes = $dataPrimeiraParcela[1];
+            $ano = $dataPrimeiraParcela[2];
+          } else {
+            $dia = date("d");
+            $mes = date("m");
+            $ano = date("Y");
+          }
+         
+          for($x = 0; $x < $nParcelas; $x++){
+            echo date("d/m/Y",strtotime("+".$x." month",mktime(0, 0, 0,$mes,$dia,$ano))),"<br/>";
+          }
+        }
 
     public function emitir_nfe() {
 

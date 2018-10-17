@@ -14,8 +14,8 @@
     <?php foreach($provider_list as $c): ?>
         <tr>
             <td><?php echo $c['name']; ?></td>
-            <td width="100"><?php echo $c['phone']; ?></td>
-            <td width="150"><?php echo $c['address_city']; ?></td>
+            <td width="110"><?php echo $c['phone']; ?></td>
+            <td width="250"><?php echo $c['address_city']; ?></td>
             <td width="160" style="text-align:center">
                 <?php if($edit_permission): ?>
                     <div class="button button_small"><a href="<?php echo BASE_URL; ?>/provider/edit/<?php echo $c['id']; ?>">Editar</a></div>

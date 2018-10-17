@@ -1,3 +1,9 @@
+function calcular() {
+    var n1 = parseInt(document.getElementById('n1').value, 10);
+    var n2 = parseInt(document.getElementById('n2').value, 10);
+    document.getElementById('resultado').value = n1 / n2;
+}
+
 function selectClient(obj) {
 	var id = $(obj).attr('data-id');
 	var name = $(obj).html();

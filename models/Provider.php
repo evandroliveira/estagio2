@@ -1,11 +1,11 @@
 <?php
 class Provider extends model {
 
-    public function getList($offset, $id) {
+    public function getList($offset, $id_company) {
         $array = array();
 
-        $sql = $this->db->prepare("SELECT * FROM provider WHERE id = :id LIMIT $offset, 10");
-        $sql->bindValue(':id', $id);
+        $sql = $this->db->prepare("SELECT * FROM provider WHERE id_company = :id_company LIMIT $offset, 10");
+        $sql->bindValue(':id_company', $id_company);
         $sql->execute();
 
         if($sql->rowCount() > 0) {
@@ -15,11 +15,12 @@ class Provider extends model {
         return $array;
     }
 
-    public function getInfo($id) {
+    public function getInfo($id, $id_company) {
         $array = array();
 
-        $sql = $this->db->prepare("SELECT * FROM provider WHERE id = :id");
+        $sql = $this->db->prepare("SELECT * FROM provider WHERE id = :id AND id_company = :id_company");
         $sql->bindValue(":id", $id);
+        $sql->bindValue(":id_company", $id_company);
         $sql->execute();
 
         if($sql->rowCount() > 0) {
@@ -29,11 +30,11 @@ class Provider extends model {
         return $array;
     }
 
-    public function getCount($id) {
+    public function getCount($id_company) {
         $r = 0;
 
-        $sql = $this->db->prepare("SELECT COUNT(*) as c FROM provider WHERE id = :id");
-        $sql->bindValue(':id', $id);
+        $sql = $this->db->prepare("SELECT COUNT(*) as c FROM provider WHERE id_company = :id_company");
+        $sql->bindValue(':id_company', $id_company);
         $sql->execute();
         $row = $sql->fetch();
 
@@ -42,43 +43,46 @@ class Provider extends model {
         return $r;
     }
 
-    public function add($id, $name, $cnpj = '', $address = '', $number, $bairro = '', $cep = '', $state = '', $city = '', $phone = '', $cellphone = '', $email = '', $status = '') {
-
-        $sql = $this->db->prepare("INSERT INTO provider SET id = :id, name = :name, cnpj = :cnpj, address = :address, number = :number, bairro = :bairro, cep = :cep, state = :state, city = :city, phone = :phone, cellphone = :cellphone, email = :email, status = :status");
-        $sql->bindValue(":id", $id);
+    public function add($id_company, $name, $email = '', $phone = '', $cellphone = '', $cnpj = '', $stars = '3', $internal_obs = '', $address_zipcode = '', $address = '', $address_number = '', $address2 = '',  $address_neighb = '', $address_city = '',  $address_state = '', $address_country = '') {
+        $sql = $this->db->prepare("INSERT INTO provider SET id_company = :id_company, name = :name, cnpj = :cnpj, address = :address, address2 = :address2, address_number = :address_number, address_neighb = :address_neighb, address_zipcode = :address_zipcode, address_state = :address_state, address_city = :address_city, address_country = :address_country, phone = :phone, cellphone = :cellphone, email = :email, stars = :stars, internal_obs = :internal_obs");
+        $sql->bindValue(":id_company", $id_company);
         $sql->bindValue(":name", $name);
         $sql->bindValue(":cnpj", $cnpj);
         $sql->bindValue(":address", $address);
-        $sql->bindValue(":number", $number);
-        $sql->bindValue(":bairro", $bairro);
-        $sql->bindValue(":cep", $cep);
-        $sql->bindValue(":state", $state);
-        $sql->bindValue(":city", $city);
+        $sql->bindValue(":address2", $address2);
+        $sql->bindValue(":address_number", $address_number);
+        $sql->bindValue(":address_neighb", $address_neighb);
+        $sql->bindValue(":address_zipcode", $address_zipcode);
+        $sql->bindValue(":address_state", $address_state);
+        $sql->bindValue(":address_city", $address_city);
+        $sql->bindValue(":address_country", $address_country);
         $sql->bindValue(":phone", $phone);
         $sql->bindValue(":cellphone", $cellphone);
         $sql->bindValue(":email", $email);
-        $sql->bindValue(":status", $status);
+        $sql->bindValue(":stars", $stars);
+        $sql->bindValue(":internal_obs", $internal_obs);
         $sql->execute();
 
         return $this->db->lastInsertId();
     }
 
-    public function edit($id, $name, $cnpj, $address, $number, $bairro, $cep, $state, $city, $phone, $cellphone, $email, $status) {
+    public function edit($id_company, $name, $cnpj, $address, $address_number, $address_neighb, $address_zipcode, $address_state, $address_city, $phone, $cellphone, $email, $stars = 3, $internal_obs) {
 
-        $sql = $this->db->prepare("UPDATE provider SET id = :id, name = :name, cnpj = :cnpj, address = :address, number = :number, bairro = :bairro, cep = :cep, state = :state, city = :city, phone = :phone, cellphone = :cellphone, email = :email, status = :status WHERE id = :id");
-        $sql->bindValue(":id", $id);
+        $sql = $this->db->prepare("UPDATE provider SET id = :id, name = :name, cnpj = :cnpj, address = :address, address_number = :address_number, bairro = :bairro, address_zipcode = :address_zipcode, address_state = :address_state, city = :city, phone = :phone, cellphone = :cellphone, email = :email, status = :status WHERE id = :id");
+        $sql->bindValue(":$id_company", $id_company);
         $sql->bindValue(":name", $name);
         $sql->bindValue(":cnpj", $cnpj);
         $sql->bindValue(":address", $address);
-        $sql->bindValue(":number", $number);
-        $sql->bindValue(":bairro", $bairro);
-        $sql->bindValue(":cep", $cep);
-        $sql->bindValue(":state", $state);
-        $sql->bindValue(":city", $city);
+        $sql->bindValue(":address_number", $address_number);
+        $sql->bindValue(":address_neighb", $address_neighb);
+        $sql->bindValue(":address_zipcode", $address_zipcode);
+        $sql->bindValue(":address_state", $address_state);
+        $sql->bindValue(":address_city", $address_city);
         $sql->bindValue(":phone", $phone);
         $sql->bindValue(":cellphone", $cellphone);
         $sql->bindValue(":email", $email);
-        $sql->bindValue(":status", $status);
+        $sql->bindValue(":stars", $stars);
+        $sql->bindValue(":internal_obs", $internal_obs);
         $sql->execute();
 
     }

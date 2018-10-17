@@ -1,23 +1,21 @@
 <?php
-class Sales extends model {
+class Purchases extends model {
 
 	public function getList($offset, $id_company) {
 		$array = array();
 
 		$sql = $this->db->prepare("
 			SELECT
-				sales.id,
-				sales.date_sale,
-				sales.total_price,
-				sales.total_parcel,
-				sales.value_parcel,
-				sales.status,
-				clients.name
-			FROM sales
-			LEFT JOIN clients ON clients.id = sales.id_client
+				purchases.id,
+				purchases.date_purchase,
+				purchases.total_price,
+				purchases.status,
+				provider.name
+			FROM purchases
+			LEFT JOIN provider ON provider.id = purchases.id_provider
 			WHERE
-				sales.id_company = :id_company
-			ORDER BY sales.date_sale DESC
+				purchases.id_company = :id_company
+			ORDER BY purchases.date_purchase DESC
 			LIMIT $offset, 10");
 		$sql->bindValue(":id_company", $id_company);
 		$sql->execute();
@@ -29,26 +27,21 @@ class Sales extends model {
 		return $array;
 	}
 
-	public function addSale($id_company, $id_client, $id_user, $quant, $total_parcel, $status) {
+	public function addPurchases($id_company, $id_provider, $id_user,  $quant, $status, $descricao_movimento, $valor_movimento, $id_movimento, $vencimento_movimento, $pagamento_movimento ) {
 		$i = new Inventory();
-		//Adicionando a venda com o preço zerado
-
-        $valor_parcel = 0;
-		$sql = $this->db->prepare("INSERT INTO sales SET id_company = :id_company, id_client = :id_client,  id_user = :id_user, date_sale = NOW(), total_price = :total_price, total_parcel = :total_parcel, value_parcel = :value_parcel, status = :status");
+		//Adicionando a compra com o preço zerado
+		$sql = $this->db->prepare("INSERT INTO purchases SET id_company = :id_company, id_provider = :id_provider,  id_user = :id_user, date_purchase = NOW(), total_price = :total_price,  status = :status");
 		$sql->bindValue(":id_company", $id_company);
-		$sql->bindValue(":id_client", $id_client);
+		$sql->bindValue(":id_provider", $id_provider);
 		$sql->bindValue(":id_user", $id_user);
 		$sql->bindValue(":total_price", '0');
-        $sql->bindValue(":total_parcel", $total_parcel);
-        $sql->bindValue(":value_parcel", '0');
 		$sql->bindValue(":status", $status);
 		$sql->execute();
 
-		$id_sale = $this->db->lastInsertId();
+		$id_purchase = $this->db->lastInsertId();
 		//fazendo uma consulta para pegar o valor do produto
-		//adicionando os produtos da venda
+		//adicionando os produtos da compra
 		$total_price = 0;
-
 		foreach($quant as $id_prod => $quant_prod) {
 			$sql = $this->db->prepare("SELECT price FROM inventory WHERE id = :id AND id_company = :id_company");
 			$sql->bindValue(":id", $id_prod);
@@ -59,28 +52,112 @@ class Sales extends model {
 				$row = $sql->fetch();
 				$price = $row['price'];
 
-				$sqlp = $this->db->prepare("INSERT INTO sales_products SET id_company = :id_company, id_sale = :id_sale, id_product = :id_product, quant = :quant, sale_price = :sale_price");
+
+				$sqlp = $this->db->prepare("INSERT INTO purchases_products SET id_company = :id_company, id_purchase = :id_purchase, id_product = :id_product, quant = :quant, purchase_price = :purchase_price");
 				$sqlp->bindValue(":id_company", $id_company);
-				$sqlp->bindValue(":id_sale", $id_sale);
+				$sqlp->bindValue(":id_purchase", $id_purchase);
 				$sqlp->bindValue(":id_product", $id_prod);
 				$sqlp->bindValue(":quant", $quant_prod);
-				$sqlp->bindValue(":sale_price", $price);
+				$sqlp->bindValue(":purchase_price", $price);
 				$sqlp->execute();
 				//Dar baixa no estoque
-				$i->decrease($id_prod, $id_company, $quant_prod, $id_user);
+
+				$i->increase($id_prod, $id_company, $quant_prod, $id_user);
 
 				$total_price += $price * $quant_prod;
-				$valor_parcel = $total_price / $total_parcel;
-				
 			}
 
 		}
-		//atualiza o preço final da venda
-        $sql = $this->db->prepare("UPDATE sales SET total_price = :total_price WHERE id = :id");
+		//atualiza o preço final da compra
+        $sql = $this->db->prepare("UPDATE purchases SET total_price = :total_price WHERE id = :id");
 		$sql->bindValue(":total_price", $total_price);
-		$sql->bindValue(":id", $id_sale);
+		$sql->bindValue(":id", $id_provider);
 		$sql->execute();
-	  	
+
+        // ID do fornecedor
+       // $idCliente = 1;
+
+// Função round arredonda para duas casas decimais
+        $valor = round(100, 2);  // R$ 100,00
+
+// Número de parcelas
+        $parcelas = 1;
+
+// A compra tem entrada?
+        $entrada = false;
+
+
+// Insira a movimentação no banco
+        $sql = $this->db->prepare("INSERT INTO cad_movimento SET 
+                          id_company = :id_company, 
+                          id_provider = :id_provider, 
+                          data_movimento = NOW(), 
+                          descricao_movimento = :descricao_movimento, 
+                          valor_movimento = :valor_movimento
+                      WHERE id_company = :id_company AND id_provider = :id_provider");
+        $sql->bindValue(":id_company", $id_company);
+        $sql->bindValue(":id_provider", $id_provider);
+        $sql->bindValue(":descricao_movimento", $descricao_movimento);
+        $sql->bindValue(":valor_movimento", $valor_movimento);
+        $sql->execute();
+
+        //$con->query($sql);
+
+
+
+// Pegue do banco o último ID inserido da movimentação
+        $idMovimento = 1;
+
+
+// Calcula o valor da parcela dividindo o total pelo número de parcelas
+        $valorParcela = round($valor / $parcelas, 2);
+
+// Se tiver entrada diminui o número de parcelas
+        $qtd = $entrada ? $parcelas - 1 : $parcelas;
+
+
+// Faz um loop com a quantidade de parcelas
+        for ($i=($entrada ? 0 : 1); $i <= $qtd; $i++) {
+
+            // Se for última parcela e a soma das parcelas for diferente do valor da compra
+            // ex: 100 / 3 == 33.33 logo 3 * 33.33 == 99.99
+            // Então acrescenta a diferença na parcela, assim última parcela será 33.34
+            if ($qtd == $i && round($valorParcela * $parcelas, 2) != $valor){
+                $valorParcela += $valor - ($valorParcela * $parcelas);
+            }
+
+            // Caso a variavel $entrada seja true
+            // o valor $i na primeira parcela será 0
+            // então 30 * 0 == 0
+            // será adicionado 0 dias a data, ou seja, a primeira parcela
+            // será a data atual
+            $dias = 30 * $i;
+
+            // Hoje mais X dias
+            // Parcela 1: 30 dias
+            // Parcela 2: 60 dias
+            // Parcela 3: 90 dias...
+            $data = date('Y-m-d', strtotime("+{$dias} days"));
+
+            $sql  = $this->db->prepare("INSERT INTO cad_parcelas SET
+               id_movimento = :id_movimento,
+               id_company = :id_company,
+               id_provider = :id_provider,
+               data_movimento = NOW(),
+               qtde_parcel = :qtde_parcel,
+               vencimento_movimento = :vencimento_movimento,
+               pagamento_movimento = :pagamento_movimento,
+               valor_movimento = :valor_movimento");
+            $sql->bindValue(":id_movimento", $id_movimento);
+            $sql->bindValue(":id_company", $id_company);
+            $sql->bindValue(":id_provider", $id_provider);
+            $sql->bindValue("qtde_parcel", $parcelas);
+            $sql->bindValue(":vencimento_movimento", $vencimento_movimento);
+            $sql->bindValue(":pagamento_movimento", $pagamento_movimento);
+            $sql->bindValue(":valor_movimento", $valor_movimento);
+            $sql->execute();
+        }
+
 	}
 
 	public function getInfo($id, $id_company) {
@@ -89,8 +166,8 @@ class Sales extends model {
 		$sql = $this->db->prepare("
 			SELECT
 				*,
-				( select clients.name from clients where clients.id = sales.id_client ) as client_name
-			FROM sales
+				( select provider.name from provider where provider.id = purchases.id_provider ) as provider_name
+			FROM purchases
 			WHERE 
 				id = :id AND
 				id_company = :id_company");
@@ -104,16 +181,16 @@ class Sales extends model {
 
 		$sql = $this->db->prepare("
 			SELECT
-				sales_products.quant,
-				sales_products.sale_price,
+				purchases_products.quant,
+				purchases_products.sale_price,
 				inventory.name
-			FROM sales_products
+			FROM purchases_products
 			LEFT JOIN inventory
-				ON inventory.id = sales_products.id_product
+				ON inventory.id = purchases_products.id_product
 			WHERE
-				sales_products.id_sale = :id_sale AND
-				sales_products.id_company = :id_company");
-		$sql->bindValue(":id_sale", $id);
+				purchases_products.id_purchase = :id_purchase AND
+				purchases_products.id_company = :id_company");
+		$sql->bindValue(":id_purchase", $id);
 		$sql->bindValue(":id_company", $id_company);
 		$sql->execute();
 
@@ -330,14 +407,5 @@ class Sales extends model {
 
 		return $array;
 	}
-
+	
 }
-
-
-
-
-
-
-
-
-
