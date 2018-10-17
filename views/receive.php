@@ -17,7 +17,7 @@
 		<td><?php echo $statuses[$receive['status']]; ?></td>
 		<td>R$ <?php echo number_format($receive['total_price'], 2, ',', '.'); ?></td>
 		<td>
-			<div class="button button_small"><a href="<?php echo BASE_URL; ?>/sales/edit/<?php echo $receive['id']; ?>">Pagar</a></div>
+			<div class="button button_small"><a href="<?php echo BASE_URL; ?>/sales/edit/<?php echo $receive['id']; ?>">Receber</a></div>
 		</td>
 	</tr>
 	<?php endforeach; ?>

@@ -9,8 +9,6 @@ class Sales extends model {
 				sales.id,
 				sales.date_sale,
 				sales.total_price,
-				sales.total_parcel,
-				sales.value_parcel,
 				sales.status,
 				clients.name
 			FROM sales

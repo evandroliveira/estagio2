@@ -1,10 +1,10 @@
 <h1>Compras - Editar</h1>
 
 <strong>Nome do Cliente:</strong><br/>
-<?php echo $sales_info['info']['client_name']; ?><br/><br/>
+<?php echo $sales_info['info']['provider_name']; ?><br/><br/>
 
 <strong>Data da Venda</strong><br/>
-<?php echo date('d/m/Y', strtotime($sales_info['info']['date_sale'])); ?><br/><br/>
+<?php echo date('d/m/Y', strtotime($sales_info['info']['date_purchase'])); ?><br/><br/>
 
 <strong>Total da Venda</strong><br/>
 R$ <?php echo number_format($sales_info['info']['total_price'], 2, ',', '.'); ?><br/><br/>
@@ -37,7 +37,7 @@ R$ <?php echo number_format($sales_info['info']['total_price'], 2, ',', '.'); ?>
 	<tr>
 		<td><?php echo $productitem['name']; ?></td>
 		<td><?php echo $productitem['quant']; ?></td>
-		<td>R$ <?php echo number_format($productitem['sale_price'], 2, ',', '.'); ?></td>
+		<td>R$ <?php echo number_format($productitem['purchase_price'], 2, ',', '.'); ?></td>
 		<td>R$ <?php echo number_format($productitem['sale_price'] * $productitem['quant'], 2, ',', '.'); ?></td>
 	</tr>
 	<?php endforeach; ?>

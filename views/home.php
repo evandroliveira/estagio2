@@ -31,7 +31,7 @@
 		<div class="db-info">
 			<div class="db-info-title">Status de Pgto.</div>
 			<div class="db-info-body" style="height:300px">
-				<canvas id="rel2" height="300"></canvas>
+				<canvas id="rel2" height="250"></canvas>
 			</div>
 		</div>
 	</div>

@@ -25,7 +25,11 @@
                             <a href="<?php echo BASE_URL; ?>/receive">Contas a Receber</a>
                         </div>
                     </li>
-                    <li><a href="<?php echo BASE_URL; ?>/purchases">Compras</a></li>
+                    <li class="menu"><a href="<?php echo BASE_URL; ?>/purchases">Compras</a>
+                        <div class="dropdown">
+                            <a href="<?php echo BASE_URL; ?>/pay">Contas a Pagar</a>
+                        </div>
+                    </li>
                     <li><a href="<?php echo BASE_URL; ?>/cashier">Caixa</a></li>
                     <li><a href="<?php echo BASE_URL; ?>/report">Relatórios</a></li>
                     
