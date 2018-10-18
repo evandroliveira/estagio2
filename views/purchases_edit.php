@@ -1,13 +1,13 @@
 <h1>Compras - Editar</h1>
 
 <strong>Nome do Cliente:</strong><br/>
-<?php echo $sales_info['info']['provider_name']; ?><br/><br/>
+<?php echo $purchases_info['info']['provider_name']; ?><br/><br/>
 
 <strong>Data da Venda</strong><br/>
-<?php echo date('d/m/Y', strtotime($sales_info['info']['date_purchase'])); ?><br/><br/>
+<?php echo date('d/m/Y', strtotime($purchases_info['info']['date_purchase'])); ?><br/><br/>
 
 <strong>Total da Venda</strong><br/>
-R$ <?php echo number_format($sales_info['info']['total_price'], 2, ',', '.'); ?><br/><br/>
+R$ <?php echo number_format($purchases_info['info']['total_price'], 2, ',', '.'); ?><br/><br/>
 
 <strong>Status da Venda</strong><br/>
 <!--Se não tiver permissão de edição vai aparecer somente o nome (aguardando pagamento, pago ou cancelado)-->
@@ -15,13 +15,13 @@ R$ <?php echo number_format($sales_info['info']['total_price'], 2, ',', '.'); ?>
 <form method="POST">
 	<select name="status">
 		<?php foreach($statuses as $statusKey => $statusValue): ?>
-		<option value="<?php echo $statusKey; ?>" <?php echo ($statusKey == $sales_info['info']['status'])?'selected="selected"':''; ?>><?php echo $statusValue; ?></option>
+		<option value="<?php echo $statusKey; ?>" <?php echo ($statusKey == $purchases_info['info']['status'])?'selected="selected"':''; ?>><?php echo $statusValue; ?></option>
 		<?php endforeach; ?>
 	</select><br/><br/>
 	<input type="submit" value="Salvar" />
 </form>
 <?php else: ?>
-<?php echo $statuses[$sales_info['info']['status']]; ?>
+<?php echo $statuses[$purchases_info['info']['status']]; ?>
 <?php endif; ?>
 <br/><br/>
 <hr/>
@@ -33,7 +33,7 @@ R$ <?php echo number_format($sales_info['info']['total_price'], 2, ',', '.'); ?>
 		<th>Preço Unitário</th>
 		<th>Preço Total</th>
 	</tr>
-	<?php foreach($sales_info['products'] as $productitem): ?>
+	<?php foreach($purchases_info['products'] as $productitem): ?>
 	<tr>
 		<td><?php echo $productitem['name']; ?></td>
 		<td><?php echo $productitem['quant']; ?></td>
