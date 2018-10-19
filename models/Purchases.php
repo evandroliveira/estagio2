@@ -96,6 +96,7 @@ class Purchases extends model
 
 
 // Faz um loop com a quantidade de parcelas
+
         foreach ($parcelas as $parcela) {
             try {
                 $sql = $this->db->prepare("INSERT INTO cad_parcelas SET

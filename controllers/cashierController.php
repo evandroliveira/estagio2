@@ -19,7 +19,7 @@ class cashierController extends controller {
         $data['company_name'] = $company->getName();
         $data['user_email'] = $u->getEmail();
 
-        $s = new Sales();
+        $c = new Cashier();
 
         $data['statuses'] = array(
             '0'=>'Aguardando Pgto.',
@@ -27,15 +27,15 @@ class cashierController extends controller {
             '2'=>'Cancelado'
         );
 
-        $data['products_sold'] = $s->getSoldProducts(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
+        //$data['products_sold'] = $c->getSoldProducts(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
 
-        $data['revenue'] = $s->getTotalRevenue(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
+        $data['revenue'] = $c->getTotalCaixa(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
 
-        $data['expenses'] = $s->getTotalExpenses(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
+       // $data['expenses'] = $c->getTotalExpenses(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
         
        
 
-        $this->loadTemplate('home', $data);
+        $this->loadTemplate('cashier', $data);
     }
 
 }

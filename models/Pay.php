@@ -6,16 +6,16 @@ class Pay extends model {
 
         $sql = $this->db->prepare("
 			SELECT
-				purchases.id,
-				purchases.date_purchase,
-				purchases.total_price,
-				purchases.status,
+				cad_parcelas.id_parcela,
+				cad_parcelas.n_parcel,
+				cad_parcelas.vencimento_movimento,
+				cad_parcelas.valor_movimento,
 				provider.name
-			FROM purchases
-			LEFT JOIN provider ON provider.id = purchases.id_provider 
+			FROM cad_parcelas
+			LEFT JOIN provider ON cad_parcelas.id_provider = provider.id
 			WHERE
-				purchases.id_company = :id_company AND status != 1 AND status != 2
-			ORDER BY purchases.date_purchase DESC
+				cad_parcelas.id_company = :id_company
+			ORDER BY cad_parcelas.vencimento_movimento ASC
 			LIMIT $offset, 10");
         $sql->bindValue(":id_company", $id_company);
         $sql->execute();
@@ -69,6 +69,18 @@ class Pay extends model {
 
 
         return $array;
+    }
+
+    public function getCount($id_company) {
+        $r = 0;
+        $sql = $this->db->prepare("SELECT COUNT(*) as p FROM purchases WHERE id_company = :id_company");
+        $sql->bindValue(':id_company', $id_company);
+        $sql->execute();
+        $row = $sql->fetch();
+
+        $r = $row['p'];
+
+        return $r;
     }
 
 }

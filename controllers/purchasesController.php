@@ -90,9 +90,9 @@ class purchasesController extends controller
         $installment = $valorTotal / $qtdParcela;
 
         //caso tenha entrada, ela fica na primeira posição do array
-        if (!empty($entrada) && $entrada > 0) {
+        if (!empty($entrada) && $entrada >= 1) {
             $installments[] = [
-                'parcela' => 0,
+                'parcela' => 1,
                 'data_vencimento' => date('d/m/Y'),
                 'valor' => number_format($entrada, 2)
             ];
