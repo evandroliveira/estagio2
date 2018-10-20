@@ -18,9 +18,14 @@ spl_autoload_register(function ($class) {
     }
 });
 
-function dd($val)
+function debug($var)
 {
-    essentials::dd($val);
+    essentials::debug($var);
+}
+
+function dd($var)
+{
+    essentials::dd($var);
 }
 
 $core = new Core();

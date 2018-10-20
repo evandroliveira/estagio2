@@ -29,11 +29,10 @@ class cashierController extends controller {
 
         //$data['products_sold'] = $c->getSoldProducts(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
 
-        $data['revenue'] = $c->getTotalCaixa(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
+        $data['revenue'] = $c->getTotalCaixa($u->getCompany());
 
        // $data['expenses'] = $c->getTotalExpenses(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
         
-       
 
         $this->loadTemplate('cashier', $data);
     }

@@ -78,48 +78,79 @@ class Purchases extends model
         $sql->bindValue(":id", $id_provider);
         $sql->execute();
 
-// Insira a movimentação no banco
-        $sql = $this->db->prepare("INSERT INTO cad_movimento SET 
-                          id_company = :id_company, 
-                          id_provider = :id_provider, 
-                          data_movimento = NOW(), 
-                          descricao_movimento = :descricao_movimento, 
-                          valor_movimento = :valor_movimento
-                      WHERE id_company = :id_company AND id_provider = :id_provider");
-        $sql->bindValue(":id_company", $id_company);
-        $sql->bindValue(":id_provider", $id_provider);
-        $sql->bindValue(":descricao_movimento", $descricao_movimento);
-        $sql->bindValue(":valor_movimento", $valor_movimento);
-        $sql->execute();
-
-        //$con->query($sql);
-
-
 // Faz um loop com a quantidade de parcelas
 
         foreach ($parcelas as $parcela) {
             try {
                 $sql = $this->db->prepare("INSERT INTO cad_parcelas SET
-               id_movimento = :id_movimento,
+               id_purchase = :id_purchase,
                id_company = :id_company,
                id_provider = :id_provider,
                n_parcel = :n_parcel,
                vencimento_movimento = :vencimento_movimento,
                pagamento_movimento = :pagamento_movimento,
-               valor_movimento = :valor_movimento");
-                $sql->bindValue(":id_movimento", $id_movimento);
+               valor_movimento = :valor_movimento
+               status = :status
+               ");
+                $sql->bindValue(":id_purchase", $id_purchase);
                 $sql->bindValue(":id_company", $id_company);
                 $sql->bindValue(":id_provider", $id_provider);
                 $sql->bindValue(":n_parcel", $parcela['parcela']);
                 $sql->bindValue(":vencimento_movimento", essentials::convertDB($parcela['data_vencimento']));
                 $sql->bindValue(":pagamento_movimento", '');
                 $sql->bindValue(":valor_movimento", $parcela['valor']);
+                $sql->bindValue(":status", 0);
                 $sql->execute();
             } catch (Exception $e) {
                 dd($e->getMessage());
             }
         }
 
+    }
+
+    public function payParcela($id)
+    {
+        $sqlParcela = $this->db->prepare("SELECT cp.* FROM cad_parcelas as cp  WHERE cp.id_parcela = :id_parcela");
+        $sqlParcela->bindValue(":id_parcela", $id);
+        $sqlParcela->execute();
+
+        $parcela = $sqlParcela->fetchAll()[0];
+
+        $sqlParcela = $this->db->prepare("UPDATE cad_parcelas SET status = 1, pagamento_movimento = NOW() WHERE id_parcela = :id_parcela");
+        $sqlParcela->bindValue(":id_parcela", $id);
+        $sqlParcela->execute();
+
+        // Insira a movimentação no banco
+        $sql = $this->db->prepare("INSERT INTO cad_movimento SET
+                          id_company = :id_company,
+                          id_provider = :id_provider,
+                          data_movimento = NOW(),
+                          descricao_movimento = :descricao_movimento,
+                          valor_movimento = :valor_movimento");
+        $sql->bindValue(":id_company", $parcela['id_company']);
+        $sql->bindValue(":id_provider", $parcela['id_provider']);
+        $sql->bindValue(":descricao_movimento", 'compra');
+        $sql->bindValue(":valor_movimento", $parcela['valor_movimento']);
+        $sql->execute();
+    }
+
+    public function getPurchases($id)
+    {
+        $data = [];
+
+        $sqlCompra = $this->db->prepare("SELECT p.* FROM purchases as p  WHERE p.id = :id_purchase LIMIT 1");
+        $sqlCompra->bindValue(":id_purchase", $id);
+        $sqlCompra->execute();
+
+        $sqlParcela = $this->db->prepare("SELECT cp.* FROM cad_parcelas as cp  WHERE cp.id_purchase = :id_purchase");
+        $sqlParcela->bindValue(":id_purchase", $id);
+        $sqlParcela->execute();
+
+
+        $data['compra'] = $sqlCompra->fetchAll()[0];
+        $data['parcela'] = $sqlParcela->fetchAll();
+
+        return $data;
     }
 
     public function getInfo($id, $id_company)

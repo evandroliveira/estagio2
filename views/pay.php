@@ -17,7 +17,7 @@
             <td><?php echo $pay['n_parcel']; ?> </td>
             <td>R$ <?php echo number_format($pay['valor_movimento'], 2, ',', '.'); ?></td>
             <td>
-                <div class="button button_small"><a href="<?php echo BASE_URL; ?>/purchases/edit/<?php echo $pay['id']; ?>">Pagar</a></div>
+                <div class="button button_small"><a href="<?php echo BASE_URL; ?>/purchases/edit/<?php echo $pay['id_parcela']; ?>">Pagar</a></div>
             </td>
         </tr>
     <?php endforeach; ?>

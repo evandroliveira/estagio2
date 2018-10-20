@@ -175,7 +175,6 @@ class Users extends model {
 		$sql->bindValue(":id_company", $id_company);
 		$sql->execute();
 	}
-
 }
 
 

@@ -1,44 +1,43 @@
 <h1>Compras - Editar</h1>
+<strong>Nome do Fornecedor:</strong><br/>
+<?php echo $fornecedor; ?><br/><br/>
 
-<strong>Nome do Cliente:</strong><br/>
-<?php echo $purchases_info['info']['provider_name']; ?><br/><br/>
-
-<strong>Data da Venda</strong><br/>
-<?php echo date('d/m/Y', strtotime($purchases_info['info']['date_purchase'])); ?><br/><br/>
+<strong>Data da Compra</strong><br/>
+<?php echo $data_compra; ?><br/><br/>
 
 <strong>Total da Venda</strong><br/>
-R$ <?php echo number_format($purchases_info['info']['total_price'], 2, ',', '.'); ?><br/><br/>
+R$ <?php echo number_format($total, 2); ?><br/><br/>
 
-<strong>Status da Venda</strong><br/>
-<!--Se não tiver permissão de edição vai aparecer somente o nome (aguardando pagamento, pago ou cancelado)-->
-<?php if($permission_edit): ?>
-<form method="POST">
-	<select name="status">
-		<?php foreach($statuses as $statusKey => $statusValue): ?>
-		<option value="<?php echo $statusKey; ?>" <?php echo ($statusKey == $purchases_info['info']['status'])?'selected="selected"':''; ?>><?php echo $statusValue; ?></option>
-		<?php endforeach; ?>
-	</select><br/><br/>
-	<input type="submit" value="Salvar" />
-</form>
-<?php else: ?>
-<?php echo $statuses[$purchases_info['info']['status']]; ?>
-<?php endif; ?>
+<strong>Status da Compra</strong><br/>
+<?php echo ($status) ? 'Pago' : 'Não pago'; ?>
 <br/><br/>
 <hr/>
 
 <table border="0" width="100%">
-	<tr>
-		<th>Nome do Produto</th>
-		<th>Quantidade</th>
-		<th>Preço Unitário</th>
-		<th>Preço Total</th>
-	</tr>
-	<?php foreach($purchases_info['products'] as $productitem): ?>
-	<tr>
-		<td><?php echo $productitem['name']; ?></td>
-		<td><?php echo $productitem['quant']; ?></td>
-		<td>R$ <?php echo number_format($productitem['purchase_price'], 2, ',', '.'); ?></td>
-		<td>R$ <?php echo number_format($productitem['sale_price'] * $productitem['quant'], 2, ',', '.'); ?></td>
-	</tr>
-	<?php endforeach; ?>
+    <tr>
+        <th>N.</th>
+        <th>Valor</th>
+        <th>Data de Vencimento</th>
+        <th>Data de Pagamento</th>
+        <th>Status</th>
+        <th>Ações</th>
+    </tr>
+    <?php foreach ($parcelas as $parcela): ?>
+        <tr>
+            <td><?php echo $parcela['n']; ?></td>
+            <td><?php echo $parcela['valor']; ?></td>
+            <td><?php echo $parcela['vencimento']; ?></td>
+            <td><?php echo $parcela['pagamento']; ?></td>
+            <td><?php echo ($parcela['status']) ? 'Pago' : 'Não pago'; ?></td>
+            <td>
+                <div class="button button_small">
+                    <?php if(!$parcela['status']){ ?>
+                    <a href="<?php echo BASE_URL; ?>/purchases/payParcela/<?php echo $parcela['id']; ?>">Pagar</a>
+                    <?php }else{ ?>
+                        Já pago
+                    <?php } ?>
+                </div>
+            </td>
+        </tr>
+    <?php endforeach; ?>
 </table>

@@ -2,11 +2,16 @@
 
 class essentials
 {
-    public function dd($val)
+    public function debug($var)
     {
         echo '<pre>';
-        print_r($val);
+        print_r($var);
         echo '</pre>';
+    }
+
+    public function dd($var)
+    {
+        debug($var);
         die();
     }
 
@@ -16,5 +21,10 @@ class essentials
         return date("Y-m-d", strtotime($rep));
     }
 
+    public function convertView($date)
+    {
+        $rep = str_replace('-', '/', $date);
+        return date("d/m/Y", strtotime($rep));
+    }
 
 }
