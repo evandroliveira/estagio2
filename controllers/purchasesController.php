@@ -24,9 +24,8 @@ class purchasesController extends controller
         $data['user_email'] = $u->getEmail();
 
         $data['statuses'] = array(
-            '0' => 'Parcelado',
-            '1' => 'Pago',
-            '2' => 'Cancelado'
+            '0'=>'A Prazo',
+            '1'=>'À Vista',
         );
 
         if ($u->hasPermission('purchases_view')) {
@@ -63,7 +62,6 @@ class purchasesController extends controller
                 $pagamento_movimento = addslashes($_POST['pagamento_movimento']);
                 $valor_movimento = addslashes($_POST['total_price']);
                 $parcelas = $_POST['parcela'];
-
                 $quant = $_POST['quant'];
 
                 $p->addPurchases($u->getCompany(), $provider_id, $u->getId(), $quant, $status, $descricao_movimento, $valor_movimento, $id_movimento, $vencimento_movimento, $pagamento_movimento, $parcelas);

@@ -1,12 +1,9 @@
 <?php
-
 class Purchases extends model
 {
-
     public function getList($offset, $id_company)
     {
         $array = array();
-
         $sql = $this->db->prepare("
 			SELECT
 				purchases.id,
@@ -22,14 +19,11 @@ class Purchases extends model
 			LIMIT $offset, 10");
         $sql->bindValue(":id_company", $id_company);
         $sql->execute();
-
         if ($sql->rowCount() > 0) {
             $array = $sql->fetchAll();
         }
-
         return $array;
     }
-
     public function addPurchases($id_company, $id_provider, $id_user, $quant, $status, $descricao_movimento, $valor_movimento, $id_movimento, $vencimento_movimento, $pagamento_movimento, $parcelas)
     {
         $i = new Inventory();
@@ -41,7 +35,6 @@ class Purchases extends model
         $sql->bindValue(":total_price", $valor_movimento);
         $sql->bindValue(":status", $status);
         $sql->execute();
-
         $id_purchase = $this->db->lastInsertId();
         //fazendo uma consulta para pegar o valor do produto
         //adicionando os produtos da compra
@@ -51,26 +44,21 @@ class Purchases extends model
             $sql->bindValue(":id", $id_prod);
             $sql->bindValue(":id_company", $id_company);
             $sql->execute();
-
             if ($sql->rowCount() > 0) {
                 $row = $sql->fetch();
                 $price = $row['price'];
-
-
                 $sqlp = $this->db->prepare("INSERT INTO purchases_products SET id_company = :id_company, id_purchase = :id_purchase, id_product = :id_product, quant = :quant, purchase_price = :purchase_price");
                 $sqlp->bindValue(":id_company", $id_company);
                 $sqlp->bindValue(":id_purchase", $id_purchase);
                 $sqlp->bindValue(":id_product", $id_prod);
                 $sqlp->bindValue(":quant", $quant_prod);
                 $sqlp->bindValue(":purchase_price", $price);
+
                 $sqlp->execute();
                 //Dar baixa no estoque
-
                 $i->increase($id_prod, $id_company, $quant_prod, $id_user);
-
                 $total_price += $price * $quant_prod;
             }
-
         }
         //atualiza o preço final da compra
         $sql = $this->db->prepare("UPDATE purchases SET total_price = :total_price WHERE id = :id");
@@ -79,7 +67,6 @@ class Purchases extends model
         $sql->execute();
 
 // Faz um loop com a quantidade de parcelas
-
         foreach ($parcelas as $parcela) {
             try {
                 $sql = $this->db->prepare("INSERT INTO cad_parcelas SET
@@ -89,7 +76,7 @@ class Purchases extends model
                n_parcel = :n_parcel,
                vencimento_movimento = :vencimento_movimento,
                pagamento_movimento = :pagamento_movimento,
-               valor_movimento = :valor_movimento
+               valor_movimento = :valor_movimento,
                status = :status
                ");
                 $sql->bindValue(":id_purchase", $id_purchase);
@@ -105,21 +92,16 @@ class Purchases extends model
                 dd($e->getMessage());
             }
         }
-
     }
-
     public function payParcela($id)
     {
         $sqlParcela = $this->db->prepare("SELECT cp.* FROM cad_parcelas as cp  WHERE cp.id_parcela = :id_parcela");
         $sqlParcela->bindValue(":id_parcela", $id);
         $sqlParcela->execute();
-
         $parcela = $sqlParcela->fetchAll()[0];
-
         $sqlParcela = $this->db->prepare("UPDATE cad_parcelas SET status = 1, pagamento_movimento = NOW() WHERE id_parcela = :id_parcela");
         $sqlParcela->bindValue(":id_parcela", $id);
         $sqlParcela->execute();
-
         // Insira a movimentação no banco
         $sql = $this->db->prepare("INSERT INTO cad_movimento SET
                           id_company = :id_company,
@@ -133,30 +115,22 @@ class Purchases extends model
         $sql->bindValue(":valor_movimento", $parcela['valor_movimento']);
         $sql->execute();
     }
-
     public function getPurchases($id)
     {
         $data = [];
-
         $sqlCompra = $this->db->prepare("SELECT p.* FROM purchases as p  WHERE p.id = :id_purchase LIMIT 1");
         $sqlCompra->bindValue(":id_purchase", $id);
         $sqlCompra->execute();
-
         $sqlParcela = $this->db->prepare("SELECT cp.* FROM cad_parcelas as cp  WHERE cp.id_purchase = :id_purchase");
         $sqlParcela->bindValue(":id_purchase", $id);
         $sqlParcela->execute();
-
-
         $data['compra'] = $sqlCompra->fetchAll()[0];
         $data['parcela'] = $sqlParcela->fetchAll();
-
         return $data;
     }
-
     public function getInfo($id, $id_company)
     {
         $array = array();
-
         $sql = $this->db->prepare("
 			SELECT
 				*,
@@ -168,11 +142,9 @@ class Purchases extends model
         $sql->bindValue(":id", $id);
         $sql->bindValue(":id_company", $id_company);
         $sql->execute();
-
         if ($sql->rowCount() > 0) {
             $array['info'] = $sql->fetch();
         }
-
         $sql = $this->db->prepare("
 			SELECT
 				purchases_products.quant,
@@ -187,80 +159,82 @@ class Purchases extends model
         $sql->bindValue(":id_purchase", $id);
         $sql->bindValue(":id_company", $id_company);
         $sql->execute();
-
         if ($sql->rowCount() > 0) {
             $array['products'] = $sql->fetchAll();
         }
-
-
         return $array;
     }
-
     #metodo para mudar o status da venda
     public function changeStatus($status, $id, $id_company)
     {
-
         $sql = $this->db->prepare("UPDATE sales SET status = :status WHERE id = :id AND id_company = :id_company");
         $sql->bindValue(":status", $status);
         $sql->bindValue(":id", $id);
         $sql->bindValue(":id_company", $id_company);
         $sql->execute();
-
     }
-
-    public function getSalesFiltered($client_name, $period1, $period2, $status, $order, $id_company)
+    public function getPurchasesFiltered($provider_name, $period1, $period2, $status, $order, $id_company)
     {
-
         $array = array();
 
-        $sql = "SELECT
-			clients.name,
-			sales.date_sale,
-			sales.status,
-			sales.total_price
-		FROM sales
-		LEFT JOIN clients ON clients.id = sales.id_client
-		WHERE ";
+        $sql = "SELECT 
+        provider.name,
+        purchases.date_purchases,
+        purchases.status,
+        pruchases.total_price
+        FROM purchases 
+        LEFT JOIN provider ON provider.id = purchases.id_provider
+        WHERE ";
 
         $where = array();
-        $where[] = "sales.id_company = :id_company";
+        $where[] = "purchases.id_company = :id_company";
 
-        if (!empty($client_name)) {
-            $where[] = "clients.name LIKE '%" . $client_name . "%'";
+        if (!empty($provider_name))
+        {
+            $where[] = "provider.name = :provider_name";
         }
 
-        if (!empty($period1) && !empty($period2)) {
-            $where[] = "sales.date_sale BETWEEN :period1 AND :period2";
+        if (!empty($period1) && !empty($period2))
+        {
+            $where[] = "purchases.date_purchases BETWEEN :periodo1 AND :periodo2";
         }
 
-        if ($status != '') {
-            $where[] = "sales.status = :status";
+        if ($status != '')
+        {
+            $where[] = "purchases.status = :status";
         }
 
         $sql .= implode(' AND ', $where);
 
-        switch ($order) {
+        switch ($order)
+        {
             case 'date_desc':
             default:
-                $sql .= " ORDER BY sales.date_sale DESC";
+                $sql .= " ORDER BY purchases.date_purchase DESC";
                 break;
             case 'date_asc':
-                $sql .= " ORDER BY sales.date_sale ASC";
+                $sql .= " ORDER BY purchases.date_purchase ASC";
                 break;
             case 'status':
-                $sql .= " ORDER BY sales.status";
+                $sql .= " ORDER BY purchases.status";
                 break;
         }
-
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":id_company", $id_company);
 
-        if (!empty($period1) && !empty($period2)) {
-            $sql->bindValue(":period1", $period1);
-            $sql->bindValue(":period2", $period2);
+        if (!empty($provider_name))
+        {
+            $sql->bindValue("provider_name", $provider_name);
         }
 
-        if ($status != '') {
+        if (!empty($period1) && !empty($period2))
+        {
+            $sql->bindValue(":periodo1", $period1);
+            $sql->bindValue(":periodo2", $period2);
+        }
+
+        if ($status != '')
+        {
             $sql->bindValue(":status", $status);
         }
 
@@ -272,67 +246,52 @@ class Purchases extends model
 
         return $array;
     }
-
     public function getTotalRevenue($period1, $period2, $id_company)
     {
         $float = 0;
-
         $sql = "SELECT SUM(total_price) as total FROM sales WHERE id_company = :id_company AND date_sale BETWEEN :period1 AND :period2";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(':id_company', $id_company);
         $sql->bindValue(':period1', $period1);
         $sql->bindValue(':period2', $period2);
         $sql->execute();
-
         $n = $sql->fetch();
         $float = $n['total'];
-
         return $float;
     }
-
     public function getTotalExpenses($period1, $period2, $id_company)
     {
         $float = 0;
-
         $sql = "SELECT SUM(total_price) as total FROM purchases WHERE id_company = :id_company AND date_purchase BETWEEN :period1 AND :period2";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(':id_company', $id_company);
         $sql->bindValue(':period1', $period1);
         $sql->bindValue(':period2', $period2);
         $sql->execute();
-
         $n = $sql->fetch();
         $float = $n['total'];
-
         return $float;
     }
-
     public function getSoldProducts($period1, $period2, $id_company)
     {
         $int = 0;
-
         $sql = "SELECT id FROM sales WHERE id_company = :id_company AND date_sale BETWEEN :period1 AND :period2";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(':id_company', $id_company);
         $sql->bindValue(':period1', $period1);
         $sql->bindValue(':period2', $period2);
         $sql->execute();
-
         if ($sql->rowCount() > 0) {
             $p = array();
             foreach ($sql->fetchAll() as $sale_item) {
                 $p[] = $sale_item['id'];
             }
-
             $sql = $this->db->query("SELECT COUNT(*) as total FROM sales_products WHERE id_sale IN (" . implode(',', $p) . ")");
             $n = $sql->fetch();
             $int = $n['total'];
-
         }
-
         return $int;
     }
-
     public function getRevenueList($period1, $period2, $id_company)
     {
         $array = array();
@@ -341,26 +300,20 @@ class Purchases extends model
             $array[$currentDay] = 0;
             $currentDay = date('Y-m-d', strtotime('+1 day', strtotime($currentDay)));
         }
-
         $sql = "SELECT DATE_FORMAT(date_sale, '%Y-%m-%d') as date_sale, SUM(total_price) as total FROM sales WHERE id_company = :id_company AND date_sale BETWEEN :period1 AND :period2 GROUP BY DATE_FORMAT(date_sale, '%Y-%m-%d')";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(':id_company', $id_company);
         $sql->bindValue(':period1', $period1);
         $sql->bindValue(':period2', $period2);
         $sql->execute();
-
         if ($sql->rowCount() > 0) {
             $rows = $sql->fetchAll();
-
             foreach ($rows as $sale_item) {
                 $array[$sale_item['date_sale']] = $sale_item['total'];
             }
         }
-
-
         return $array;
     }
-
     public function getExpensesList($period1, $period2, $id_company)
     {
         $array = array();
@@ -369,46 +322,35 @@ class Purchases extends model
             $array[$currentDay] = 0;
             $currentDay = date('Y-m-d', strtotime('+1 day', strtotime($currentDay)));
         }
-
         $sql = "SELECT DATE_FORMAT(date_purchase, '%Y-%m-%d') as date_purchase, SUM(total_price) as total FROM purchases WHERE id_company = :id_company AND date_purchase BETWEEN :period1 AND :period2 GROUP BY DATE_FORMAT(date_purchase, '%Y-%m-%d')";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(':id_company', $id_company);
         $sql->bindValue(':period1', $period1);
         $sql->bindValue(':period2', $period2);
         $sql->execute();
-
         if ($sql->rowCount() > 0) {
             $rows = $sql->fetchAll();
-
             foreach ($rows as $sale_item) {
                 $array[$sale_item['date_purchase']] = $sale_item['total'];
             }
         }
-
-
         return $array;
     }
-
     public function getQuantStatusList($period1, $period2, $id_company)
     {
         $array = array('0' => 0, '1' => 0, '2' => 0);
-
         $sql = "SELECT COUNT(id) as total, status FROM sales WHERE id_company = :id_company AND date_sale BETWEEN :period1 AND :period2 GROUP BY status ORDER BY status ASC";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(':id_company', $id_company);
         $sql->bindValue(':period1', $period1);
         $sql->bindValue(':period2', $period2);
         $sql->execute();
-
         if ($sql->rowCount() > 0) {
             $rows = $sql->fetchAll();
-
             foreach ($rows as $sale_item) {
                 $array[$sale_item['status']] = $sale_item['total'];
             }
         }
-
         return $array;
     }
-
 }

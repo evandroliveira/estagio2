@@ -10,7 +10,10 @@
 	<input type="text" name="name" required /><br/><br/>
 
 	<label for="price">Preço</label><br/>
-	<input type="text" name="price" required /><br/><br/>
+    <input type="text" name="price" required /><br/><br/>
+
+    <label for="price_sale">Preço de Venda</label><br/>
+    <input type="text" name="price_sale" required /><br/><br/>
 
 	<label for="quant">Quantidade em Estoque</label><br/>
 	<input type="number" name="quant" required /><br/><br/>

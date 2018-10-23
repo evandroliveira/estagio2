@@ -17,4 +17,31 @@ class Cashier extends model
         return $float;
     }
 
+    public function getSaida($id_company) {
+        $saida = 0;
+        $sql = "SELECT SUM( total_price) as total FROM purchases WHERE id_company = :id_company";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':id_company', $id_company);
+        $sql->execute();
+
+        $s = $sql->fetch();
+        $saida = $s['total'];
+
+        return $saida;
+    }
+
+    public function getEstrada($id_company) {
+        $entrada = 0;
+
+        $sql = "SELECT SUM( total_price) as total FROM sales WHERE id_company = :id_company";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':id_company', $id_company);
+        $sql->execute();
+
+        $e = $sql->fetch();
+        $entrada = $e['total'];
+
+        return $entrada;
+    }
+
 }

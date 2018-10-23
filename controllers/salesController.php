@@ -20,8 +20,8 @@ class salesController extends controller {
         $data['user_email'] = $u->getEmail();
 
         $data['statuses'] = array(
-            '0'=>'Parcelado',
-            '1'=>'Pago',
+            '0'=>'A Prazo',
+            '1'=>'À Vista',
         );
 
         if($u->hasPermission('sales_view')) {
@@ -49,12 +49,16 @@ class salesController extends controller {
 
             if(isset($_POST['client_id']) && !empty($_POST['client_id'])) {
                 $client_id = addslashes($_POST['client_id']);
-                $total_parcel = addslashes($_POST['total_parcel']);
-                $value_parcel = addslashes($_POST['value_parcel']);
+                $id_movimento = addslashes($_POST['id_movimento']);
                 $status = addslashes($_POST['status']);
+                $descricao_movimento = addslashes($_POST['descricao_movimento']);
+                $vencimento_movimento = addslashes($_POST['vencimento_movimento']);
+                $pagamento_movimento = addslashes($_POST['pagamento_movimento']);
+                $valor_movimento = addslashes($_POST['total_price']);
+                $parcelas = $_POST['parcela'];
                 $quant = $_POST['quant'];
 
-                $s->addSale($u->getCompany(), $client_id, $u->getId(), $quant, $total_parcel, $value_parcel, $status);
+                $s->addSale($u->getCompany(), $client_id, $u->getId(), $quant, $status, $descricao_movimento, $valor_movimento, $id_movimento, $vencimento_movimento, $pagamento_movimento, $parcelas);
                 header("Location: ".BASE_URL."/sales");
             }
             
@@ -72,49 +76,102 @@ class salesController extends controller {
         $data['company_name'] = $company->getName();
         $data['user_email'] = $u->getEmail();
 
-        $data['statuses'] = array(
-            '0'=>'Aguardando Pgto.',
-            '1'=>'Pago',
-            '2'=>'Cancelado'
-        );
 
-        if($u->hasPermission('sales_view')) {
+        if ($u->hasPermission('sales_view')) {
+
             $s = new Sales();
-            #esta variável vai guardar true ou false se tem permissão de editar ou não
-            $data['permission_edit'] = $u->hasPermission('sales_edit');
 
-            if(isset($_POST['status']) && $data['permission_edit']) {
+            if (isset($_POST['client_id']) && !empty($_POST['client_id'])) {
+                $client_id = addslashes($_POST['client_id']);
+                $id_movimento = addslashes($_POST['id_movimento']);
                 $status = addslashes($_POST['status']);
-                
-                $s->changeStatus($status, $id, $u->getCompany());
+                $descricao_movimento = addslashes($_POST['descricao_movimento']);
+                $vencimento_movimento = addslashes($_POST['vencimento_movimento']);
+                $pagamento_movimento = addslashes($_POST['pagamento_movimento']);
+                $valor_movimento = addslashes($_POST['total_price']);
+                $parcelas = $_POST['parcela'];
 
-                header("Location: ".BASE_URL."/receive");
+                $quant = $_POST['quant'];
+
+                $s->addSale($u->getCompany(), $client_id, $u->getId(), $quant, $status, $descricao_movimento, $valor_movimento, $id_movimento, $vencimento_movimento, $pagamento_movimento, $parcelas);
+                header("Location: " . BASE_URL . "/sales");
+            } else {
+                $sal = new Sales();
+                $clients = new Clients();
+
+                $dados = $sal->getSales($id);
+
+                $data['cliente'] = $clients->getName($dados['venda']['id_client']);
+                $data['data_venda'] = essentials::convertView($dados['venda']['date_sale']);
+                $data['total'] = $dados['venda']['total_price'];
+                $data['status'] = $dados['venda']['status'];
+
+                $data['parcelas'] = [];
+
+                foreach ($dados['parcela'] as $parcela) {
+                    $data['parcelas'][] = [
+                        'id' => $parcela['id_parcela'],
+                        'n' => $parcela['n_parcel'],
+                        'vencimento' => essentials::convertView($parcela['vencimento_movimento']),
+                        'pagamento' => essentials::convertView($parcela['pagamento_movimento']),
+                        'valor' => $parcela['valor_movimento'],
+                        'status' => $parcela['status']
+                    ];
+                }
             }
-
-            $data['sales_info'] = $s->getInfo($id, $u->getCompany());
 
             $this->loadTemplate("sales_edit", $data);
         } else {
-            header("Location: ".BASE_URL);
+            header("Location: " . BASE_URL);
         }
+
     }
 
-    function calcularParcelas($nParcelas, $dataPrimeiraParcela = null){
-          if($dataPrimeiraParcela != null){
-            $dataPrimeiraParcela = explode( "/",$dataPrimeiraParcela);
-            $dia = $dataPrimeiraParcela[0];
-            $mes = $dataPrimeiraParcela[1];
-            $ano = $dataPrimeiraParcela[2];
-          } else {
-            $dia = date("d");
-            $mes = date("m");
-            $ano = date("Y");
-          }
-         
-          for($x = 0; $x < $nParcelas; $x++){
-            echo date("d/m/Y",strtotime("+".$x." month",mktime(0, 0, 0,$mes,$dia,$ano))),"<br/>";
-          }
+    public function payParcela($id)
+    {
+        $p = new Purchases();
+
+        $p->payParcela($id);
+
+        header("Location: " . BASE_URL . "/purchases");
+    }
+
+    public function installment()
+    {
+        $data = $_GET['data'];
+        $entrada = $_GET['entrada'];
+        $valorTotal = $_GET['valorTotal'];
+        $qtdParcela = $_GET['qtdParcela'];
+
+        //criando o array de parcelas
+        $installments = [];
+
+        //calculo de valor das parcelas
+        $installment = $valorTotal / $qtdParcela;
+
+        //caso tenha entrada, ela fica na primeira posição do array
+        if (!empty($entrada) && $entrada >= 1) {
+            $installments[] = [
+                'parcela' => 0,
+                'data_vencimento' => date('d/m/Y'),
+                'valor' => number_format($entrada, 2)
+            ];
         }
+
+//gerando as parcelas
+        for ($i = 1; $i <= $qtdParcela; $i++) {
+            //calculando a data (pode ser feito direto também)
+            $date = date('d/m/Y', strtotime($data . ' + ' . ($i * 30) . ' days'));
+
+            $installments[] = [
+                'parcela' => $i,
+                'data_vencimento' => $date,
+                'valor' => number_format($installment, 2),
+            ];
+        }
+
+        die(json_encode($installments));
+    }
 
     public function emitir_nfe() {
 

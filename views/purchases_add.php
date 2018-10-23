@@ -3,8 +3,7 @@
 <form method="POST">
     <label for="provider_name">Nome do Fornecedor</label><br/>
     <input type="hidden" name="provider_id"/>
-    <input type="text" name="provider_name" id="provider_name" data-type="search_provider"/>
-    <button class="provider_add_button">+</button>
+    <input type="text" name="provider_name" id="provider_name" data-type="search_provider"/> <button class="provider_add_button">+</button>
     <div style="clear:both"></div>
     <br/><br/>
 

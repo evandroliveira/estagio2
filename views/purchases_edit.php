@@ -1,14 +1,14 @@
 <h1>Compras - Editar</h1>
-<strong>Nome do Fornecedor:</strong><br/>
+<strong>Nome do Fornecedor: </strong>
 <?php echo $fornecedor; ?><br/><br/>
 
-<strong>Data da Compra</strong><br/>
+<strong>Data da Compra: </strong>
 <?php echo $data_compra; ?><br/><br/>
 
-<strong>Total da Venda</strong><br/>
+<strong>Total da Compra: </strong>
 R$ <?php echo number_format($total, 2); ?><br/><br/>
 
-<strong>Status da Compra</strong><br/>
+<strong>Status da Compra: </strong>
 <?php echo ($status) ? 'Pago' : 'Não pago'; ?>
 <br/><br/>
 <hr/>

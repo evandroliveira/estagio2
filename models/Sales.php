@@ -27,25 +27,25 @@ class Sales extends model {
 		return $array;
 	}
 
-	public function addSale($id_company, $id_client, $id_user, $quant, $total_parcel, $status) {
-		$i = new Inventory();
-		//Adicionando a venda com o preço zerado
 
-        $valor_parcel = 0;
-		$sql = $this->db->prepare("INSERT INTO sales SET id_company = :id_company, id_client = :id_client,  id_user = :id_user, date_sale = NOW(), total_price = :total_price, total_parcel = :total_parcel, value_parcel = :value_parcel, status = :status");
+
+	public function addSale($id_company, $id_client, $id_user, $quant, $status, $valor_movimento, $parcelas, $price_sale) {
+		$i = new Inventory();
+
+		$sql = $this->db->prepare("INSERT INTO sales SET id_company = :id_company, id_client = :id_client,  id_user = :id_user, date_sale = NOW(), total_price = :total_price, status = :status");
+
 		$sql->bindValue(":id_company", $id_company);
 		$sql->bindValue(":id_client", $id_client);
 		$sql->bindValue(":id_user", $id_user);
-		$sql->bindValue(":total_price", '0');
-        $sql->bindValue(":total_parcel", $total_parcel);
-        $sql->bindValue(":value_parcel", '0');
-		$sql->bindValue(":status", $status);
+		$sql->bindValue(":total_price", $valor_movimento);
+        $sql->bindValue(":status", $status);
 		$sql->execute();
 
 		$id_sale = $this->db->lastInsertId();
 		//fazendo uma consulta para pegar o valor do produto
 		//adicionando os produtos da venda
 		$total_price = 0;
+
 
 		foreach($quant as $id_prod => $quant_prod) {
 			$sql = $this->db->prepare("SELECT price FROM inventory WHERE id = :id AND id_company = :id_company");
@@ -57,18 +57,17 @@ class Sales extends model {
 				$row = $sql->fetch();
 				$price = $row['price'];
 
-				$sqlp = $this->db->prepare("INSERT INTO sales_products SET id_company = :id_company, id_sale = :id_sale, id_product = :id_product, quant = :quant, sale_price = :sale_price");
+				$sqlp = $this->db->prepare("INSERT INTO sales_products SET id_company = :id_company, id_sale = :id_sale, id_product = :id_product, quant = :quant, price_sale = :price_sale");
 				$sqlp->bindValue(":id_company", $id_company);
 				$sqlp->bindValue(":id_sale", $id_sale);
 				$sqlp->bindValue(":id_product", $id_prod);
 				$sqlp->bindValue(":quant", $quant_prod);
-				$sqlp->bindValue(":sale_price", $price);
+				$sqlp->bindValue(":price_sale", $price_sale);
 				$sqlp->execute();
 				//Dar baixa no estoque
 				$i->decrease($id_prod, $id_company, $quant_prod, $id_user);
 
 				$total_price += $price * $quant_prod;
-				$valor_parcel = $total_price / $total_parcel;
 				
 			}
 
@@ -78,8 +77,82 @@ class Sales extends model {
 		$sql->bindValue(":total_price", $total_price);
 		$sql->bindValue(":id", $id_sale);
 		$sql->execute();
+
+
+        // Faz um loop com a quantidade de parcelas
+
+        foreach ($parcelas as $parcela) {
+            try {
+                $sql = $this->db->prepare("INSERT INTO cad_parcelas_cli SET 
+               id_sale = :id_sale,  
+               id_company = :id_company,
+               id_client = :id_client,
+               n_parcel = :n_parcel,
+               vencimento_movimento = :vencimento_movimento,
+               pagamento_movimento = :pagamento_movimento,
+               valor_movimento = :valor_movimento,
+               status = :status
+               ");
+                $sql->bindValue(":id_sale", $id_sale);
+                $sql->bindValue(":id_company", $id_company);
+                $sql->bindValue(":id_client", $id_client);
+                $sql->bindValue(":n_parcel", $parcela['parcela']);
+                $sql->bindValue(":vencimento_movimento", essentials::convertDB($parcela['data_vencimento']));
+                $sql->bindValue(":pagamento_movimento", '');
+                $sql->bindValue(":valor_movimento", $parcela['valor']);
+                $sql->bindValue(":status", 0);
+                $sql->execute();
+            } catch (Exception $e) {
+                dd($e->getMessage());
+            }
+        }
 	  	
 	}
+
+    public function payParcela($id)
+    {
+        $sqlParcela = $this->db->prepare("SELECT cp.* FROM cad_parcelas_cli as cp  WHERE cp.id_parcela = :id_parcela");
+        $sqlParcela->bindValue(":id_parcela", $id);
+        $sqlParcela->execute();
+
+        $parcela = $sqlParcela->fetchAll()[0];
+
+        $sqlParcela = $this->db->prepare("UPDATE cad_parcelas_cli SET status = 1, pagamento_movimento = NOW() WHERE id_parcela = :id_parcela");
+        $sqlParcela->bindValue(":id_parcela", $id);
+        $sqlParcela->execute();
+
+        // Insira a movimentação no banco
+        $sql = $this->db->prepare("INSERT INTO cad_movimento SET
+                          id_company = :id_company,
+                          id_client = :id_client,
+                          data_movimento = NOW(),
+                          descricao_movimento = :descricao_movimento,
+                          valor_movimento = :valor_movimento");
+        $sql->bindValue(":id_company", $parcela['id_company']);
+        $sql->bindValue(":id_client", $parcela['id_client']);
+        $sql->bindValue(":descricao_movimento", 'venda');
+        $sql->bindValue(":valor_movimento", $parcela['valor_movimento']);
+        $sql->execute();
+    }
+
+    public function getSales($id)
+    {
+        $data = [];
+
+        $sqlVenda = $this->db->prepare("SELECT p.* FROM sales as p  WHERE p.id = :id_sales LIMIT 1");
+        $sqlVenda->bindValue(":id_sales", $id);
+        $sqlVenda->execute();
+
+        $sqlParcela = $this->db->prepare("SELECT cp.* FROM cad_parcelas_cli as cp  WHERE cp.id_sales = :id_sales");
+        $sqlParcela->bindValue(":id_sales", $id);
+        $sqlParcela->execute();
+
+
+        $data['venda'] = $sqlVenda->fetchAll()[0];
+        $data['parcela'] = $sqlParcela->fetchAll();
+
+        return $data;
+    }
 
 	public function getInfo($id, $id_company) {
 		$array = array();

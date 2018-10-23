@@ -12,6 +12,9 @@
 	<label for="price">Preço</label><br/>
 	<input type="text" name="price" value="<?php echo number_format($inventory_info['price'], 2); ?>" required /><br/><br/>
 
+    <label for="price_sale">Preço de Venda</label><br/>
+    <input type="text" name="price_sale" value="<?php echo number_format($inventory_info['price_sale'], 2); ?>" required /><br/><br/>
+
 	<label for="quant">Quantidade em Estoque</label><br/>
 	<input type="number" name="quant" value="<?php echo $inventory_info['quant']; ?>" required /><br/><br/>
 

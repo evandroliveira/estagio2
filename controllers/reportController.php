@@ -55,9 +55,8 @@ class reportController extends controller {
         $u->setLoggedUser();
 
         $data['statuses'] = array(
-            '0'=>'Aguardando Pgto.',
-            '1'=>'Pago',
-            '2'=>'Cancelado'
+            '0'=>'A prazo',
+            '1'=>'À vista'
         );
 
         if($u->hasPermission('report_view')) {
@@ -86,6 +85,57 @@ class reportController extends controller {
             header("Location: ".BASE_URL);
         }        
     }
+
+    public function purchases() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+        $company = new Companies($u->getCompany());
+        $data['company_name'] = $company->getName();
+        $data['user_email'] = $u->getEmail();
+
+        $data['statuses'] = array(
+            '0'=>'A prazo',
+            '1'=>'À vista'
+        );
+
+        if($u->hasPermission('report_view')) {
+
+
+            $this->loadTemplate("report_purchases", $data);
+        } else {
+            header("Location: ".BASE_URL);
+        }
+    }
+
+    public function purchases_pdf() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+
+        $data['statuses1'] = array(
+            '0'=>'A prazo',
+            '1'=>'À vista'
+        );
+
+        if($u->hasPermission('report_view')) {
+            $provider_name = addslashes($_GET['provider_name']);
+            $periodo1 = addslashes($_GET['periodo1']);
+            $periodo2 = addslashes($_GET['periodo2']);
+            $status = addslashes($_GET['status']);
+            $order = addslashes($_GET['order']);
+
+            $p = new Purchases();
+            $data['purchases_list'] = $p->getPurchasesFiltered($provider_name, $periodo1, $periodo2, $status, $order, $u->getCompany());
+
+
+            $this->loadView("report_purchases_pdf", $data);
+        } else {
+            header("Location: ".BASE_URL);
+        }
+    }
+
+
 
     public function inventory() {
         $data = array();

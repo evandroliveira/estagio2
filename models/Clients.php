@@ -43,6 +43,19 @@ class Clients extends model {
 		return $r;
 	}
 
+    public function getName($id)
+    {
+        $sql = $this->db->prepare("SELECT `name` FROM sales WHERE id = :id");
+        $sql->bindValue(':id', $id);
+        $sql->execute();
+
+        $row = $sql->fetch();
+
+        $r = $row['name'];
+
+        return $r;
+    }
+
     public function add($id_company, $name, $email = '', $phone = '', $cpf = '', $stars = '3', $internal_obs = '', $address_zipcode = '', $address = '', $address_number = '', $address2 = '', $address_neighb = '', $address_city = '', $address_state = '', $address_country = '') {
 
         $sql = $this->db->prepare("INSERT INTO clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, cpf = :cpf, stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neighb = :address_neighb, address_city = :address_city, address_state = :address_state, address_country = :address_country");

@@ -54,12 +54,14 @@ class inventoryController extends controller {
                 # se houve envio dos dados
                 $name = addslashes($_POST['name']);
                 $price = addslashes($_POST['price']);
+                $price_sale = addslashes($_POST['price_sale']);
                 $quant = addslashes($_POST['quant']);
                 $min_quant = addslashes($_POST['min_quant']);
                 #configurando a alteração do preço para ser inserido no banco corretamente
                 $price = str_replace(',', '.', $price);
+                $price_sale = str_replace(',', '.', $price_sale);
                 #mandando os itens para $i
-                $i->add($name, $price, $quant, $min_quant, $u->getCompany(), $u->getId());
+                $i->add($name, $price, $price_sale, $quant, $min_quant, $u->getCompany(), $u->getId());
 
                 header("Location: ".BASE_URL."/inventory");
             }
@@ -86,17 +88,18 @@ class inventoryController extends controller {
                 # se houve envio dos dados
                 $name = addslashes($_POST['name']);
                 $price = addslashes($_POST['price']);
+                $price_sale = addslashes($_POST['price_sale']);
                 $quant = addslashes($_POST['quant']);
                 $min_quant = addslashes($_POST['min_quant']);
                 #configurando a alteração do preço para ser inserido no banco corretamente substituindo a virgula pelo ponto
                 $price = str_replace('.', '', $price);
-                $price = str_replace(',', '.', $price);
+                $price_sale = str_replace(',', '.', $price_sale);
 
                
 
 
                 #mandando os itens para $i e usando a função edit
-                $i->edit($id, $name, $price, $quant, $min_quant, $u->getCompany(), $u->getId());
+                $i->edit($id, $name, $price, $price_sale, $quant, $min_quant, $u->getCompany(), $u->getId());
 
                 header("Location: ".BASE_URL."/inventory");
             }

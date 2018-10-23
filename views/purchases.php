@@ -17,7 +17,7 @@
 		<td><?php echo $statuses[$purchases_item['status']]; ?></td>
 		<td>R$ <?php echo number_format($purchases_item['total_price'], 2, ',', '.'); ?></td>
 		<td>
-			<div class="button button_small"><a href="<?php echo BASE_URL; ?>/purchases/edit/<?php echo $purchases_item['id']; ?>">Editar</a></div>
+			<div class="button button_small"><a href="<?php echo BASE_URL; ?>/purchases/edit/<?php echo $purchases_item['id']; ?>">Visualizar</a></div>
 		</td>
 	</tr>
 	<?php endforeach; ?>

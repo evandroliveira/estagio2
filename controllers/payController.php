@@ -20,9 +20,8 @@ class payController extends controller {
         $data['user_email'] = $u->getEmail();
 
         $data['statuses'] = array(
-            '0'=>'Aguardando Pgto.',
-            '1'=>'Pago',
-            '2'=>'Cancelado'
+            '0'=>'A prazo.',
+            '1'=>'À vista',
         );
 
         if($u->hasPermission('pay_view')) {

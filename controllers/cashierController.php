@@ -1,17 +1,21 @@
 <?php
-class cashierController extends controller {
 
-	public function __construct() {
+class cashierController extends controller
+{
+
+    public function __construct()
+    {
         parent::__construct();
 
         $u = new Users();
-        if($u->isLogged() == false) {
-        	header("Location: ".BASE_URL."/login");
-        	exit;
+        if ($u->isLogged() == false) {
+            header("Location: " . BASE_URL . "/login");
+            exit;
         }
     }
 
-     public function index() {
+    public function index()
+    {
         $data = array();
         $u = new Users();
         $u->setLoggedUser();
@@ -21,18 +25,12 @@ class cashierController extends controller {
 
         $c = new Cashier();
 
-        $data['statuses'] = array(
-            '0'=>'Aguardando Pgto.',
-            '1'=>'Pago',
-            '2'=>'Cancelado'
-        );
 
-        //$data['products_sold'] = $c->getSoldProducts(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
+        $data['saida'] = $c->getSaida($u->getCompany());
 
-        $data['revenue'] = $c->getTotalCaixa($u->getCompany());
+        $data['entrada'] = $c->getEstrada($u->getCompany());
 
-       // $data['expenses'] = $c->getTotalExpenses(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
-        
+        $data['movimento'] = $data['entrada'] - $data['saida'];
 
         $this->loadTemplate('cashier', $data);
     }
