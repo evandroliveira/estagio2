@@ -8,7 +8,7 @@
     <div class="warn"><?php echo $error_msg; ?></div>
 <?php endif; ?>
 
-<form method="POST">
+<form method="POST" name="form1">
 
     <label for="name">Nome</label><br/>
     <input type="text" name="name" required /><br/><br/>
@@ -23,7 +23,7 @@
     <input type="text" name="cellphone" /><br/><br/>
 
     <label for="cnpj">CNPJ</label><br/>
-    <input type="text" name="cnpj" /><br/><br/>
+    <input type="text" name="cnpj" id="cnpj" onBlur="ValidarCNPJ(form1.cnpj);" onkeyup="FormataCnpj(this,event)" maxlength="18" ng-model="cadastro.cnpj" /><br/><br/>
 
     <label for="stars">Estrelas</label><br/>
     <select name="stars" id="stars">
@@ -66,4 +66,5 @@
 
 </form>
 
-<script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/script_clients_add.js"></script>
+<script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/jquery.mask.js"></script>
+<script type="text/javascript" src="<?php BASE_URL; ?>../assets/js/script_provider_add.js">    </script>

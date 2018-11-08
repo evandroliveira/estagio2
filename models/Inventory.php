@@ -159,6 +159,20 @@ class Inventory extends model
         return $array;
     }
 
+    public function getInventoryFilter($id_company) {
+        $array = array();
+
+        $sql = $this->db->prepare("SELECT *, (price_sale-price) as dif FROM inventory WHERE id_company = :id_company ORDER BY dif ASC");
+        $sql->bindValue(":id_company", $id_company);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll();
+        }
+
+        return $array;
+    }
+
 
 }
 

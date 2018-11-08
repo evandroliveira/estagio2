@@ -8,7 +8,7 @@
     <div class="warn"><?php echo $error_msg; ?></div>
 <?php endif; ?>
 
-<form method="POST">
+<form method="POST" name="form1"   onsubmit="return validar()">
 
     <label for="name">Nome</label><br/>
     <input type="text" name="name" required /><br/><br/>
@@ -20,7 +20,7 @@
     <input type="text" name="phone"/><br/><br/>
 
     <label for="cpf">CPF</label><br/>
-    <input type="text" name="cpf"/><br/><br/>
+    <input type="text" id="cpf" name="cpf" onBlur="ValidarCPF(cpf);"/><br/><br/>
 
     <label for="stars">Estrelas</label><br/>
     <select name="stars" id="stars">
@@ -62,4 +62,5 @@
 
 </form>
 <script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/jquery.mask.js"></script>
-<script type="text/javascript" src="<?php BASE_URL; ?>../assets/js/script_clients_add.js">    </script>
+<script type="text/javascript" src="<?php BASE_URL; ?>../assets/js/script_clients_add.js"></script>
+<script type="text/javascript" src="<?php BASE_URL; ?>../assets/js/mascaraValidacao.js"></script>

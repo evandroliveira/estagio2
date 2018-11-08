@@ -35,9 +35,8 @@ class reportController extends controller {
         $data['user_email'] = $u->getEmail();
 
         $data['statuses'] = array(
-            '0'=>'Aguardando Pgto.',
-            '1'=>'Pago',
-            '2'=>'Cancelado'
+            '0'=>'A prazo',
+            '1'=>'À vista'
         );
 
         if($u->hasPermission('report_view')) {
@@ -96,7 +95,7 @@ class reportController extends controller {
 
         $data['statuses'] = array(
             '0'=>'A prazo',
-            '1'=>'À vista'
+            '1'=>'A vista'
         );
 
         if($u->hasPermission('report_view')) {
@@ -113,9 +112,9 @@ class reportController extends controller {
         $u = new Users();
         $u->setLoggedUser();
 
-        $data['statuses1'] = array(
+        $data['statuses'] = array(
             '0'=>'A prazo',
-            '1'=>'À vista'
+            '1'=>'A vista'
         );
 
         if($u->hasPermission('report_view')) {
@@ -177,6 +176,132 @@ class reportController extends controller {
         } else {
             header("Location: ".BASE_URL);
         }        
+    }
+
+    public function estoque() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+        $company = new Companies($u->getCompany());
+        $data['company_name'] = $company->getName();
+        $data['user_email'] = $u->getEmail();
+
+        if($u->hasPermission('report_view')) {
+
+            $this->loadTemplate("report_estoque", $data);
+        } else {
+            header("Location: ".BASE_URL);
+        }
+    }
+
+    public function estoque_pdf() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+
+        if($u->hasPermission('report_view')) {
+            $i = new Inventory();
+            $data['estoque_list'] = $i->getInventoryFilter($u->getCompany());
+
+            $data['filters'] = $_GET;
+
+            $this->loadLibrary('mpdf60/mpdf');
+
+            ob_start();
+            $this->loadView("report_estoque_pdf", $data);
+            $html = ob_get_contents();
+            ob_end_clean();
+
+            $mpdf = new mPDF();
+            $mpdf->WriteHTML($html);
+            $mpdf->Output();
+        } else {
+            header("Location: ".BASE_URL);
+        }
+    }
+
+    public function clients() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+        $company = new Companies($u->getCompany());
+        $data['company_name'] = $company->getName();
+        $data['user_email'] = $u->getEmail();
+
+        if($u->hasPermission('report_view')) {
+
+            $this->loadTemplate("report_clients", $data);
+        } else {
+            header("Location: ".BASE_URL);
+        }
+    }
+
+    public function clients_pdf() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+
+        if($u->hasPermission('report_view')) {
+            $c = new Clients();
+            $data['clients_list'] = $c->getClientsFiltered($u->getCompany());
+
+            $data['filters'] = $_GET;
+
+            $this->loadLibrary('mpdf60/mpdf');
+
+            ob_start();
+            $this->loadView("report_clients_pdf", $data);
+            $html = ob_get_contents();
+            ob_end_clean();
+
+            $mpdf = new mPDF();
+            $mpdf->WriteHTML($html);
+            $mpdf->Output();
+        } else {
+            header("Location: ".BASE_URL);
+        }
+    }
+
+    public function provider() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+        $company = new Companies($u->getCompany());
+        $data['company_name'] = $company->getName();
+        $data['user_email'] = $u->getEmail();
+
+        if($u->hasPermission('report_view')) {
+
+            $this->loadTemplate("report_provider", $data);
+        } else {
+            header("Location: ".BASE_URL);
+        }
+    }
+
+    public function provider_pdf() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+
+        if($u->hasPermission('report_view')) {
+            $p = new Provider();
+            $data['provider_list'] = $p->getProviderFiltered($u->getCompany());
+
+            $data['filters'] = $_GET;
+
+            $this->loadLibrary('mpdf60/mpdf');
+
+            ob_start();
+            $this->loadView("report_provider_pdf", $data);
+            $html = ob_get_contents();
+            ob_end_clean();
+
+            $mpdf = new mPDF();
+            $mpdf->WriteHTML($html);
+            $mpdf->Output();
+        } else {
+            header("Location: ".BASE_URL);
+        }
     }
 
 }

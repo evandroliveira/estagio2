@@ -179,7 +179,7 @@ class Purchases extends model
 
         $sql = "SELECT 
         provider.name,
-        purchases.date_purchases,
+        purchases.date_purchase,
         purchases.status,
         pruchases.total_price
         FROM purchases 
