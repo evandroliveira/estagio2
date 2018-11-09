@@ -372,6 +372,7 @@ table td {
 	border:1px solid #CCC;
 	border-radius:5px;
 	background-color:#FFF;
+	padding: 10px;
 }
 .db-info-title {
 	height:40px;
@@ -387,6 +388,21 @@ table td {
 	font-family: Arial;
 	font-size: 15px;
 	color: #FF0000;
+}
+
+.formulario {
+	width: 700px;
+	padding: 10px;
+}
+.formulario input {
+	width: 230px;
+	margin-right: 15px;
+	font-size: 18px;
+	font-weight: bold;
+}
+.formulario label, select {
+	font-size: 18px;
+
 }
 
 
