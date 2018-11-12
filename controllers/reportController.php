@@ -116,7 +116,7 @@ class reportController extends controller {
             '0'=>'A prazo',
             '1'=>'A vista'
         );
-
+        //recebendo todos os campos que foram enviados no popup via GET
         if($u->hasPermission('report_view')) {
             $provider_name = addslashes($_GET['provider_name']);
             $periodo1 = addslashes($_GET['periodo1']);
@@ -127,8 +127,18 @@ class reportController extends controller {
             $p = new Purchases();
             $data['purchases_list'] = $p->getPurchasesFiltered($provider_name, $periodo1, $periodo2, $status, $order, $u->getCompany());
 
+            $data['filters'] = $_GET;
 
+            $this->loadLibrary('mpdf60/mpdf');
+
+            ob_start();
             $this->loadView("report_purchases_pdf", $data);
+            $html = ob_get_contents();
+            ob_end_clean();
+
+            $mpdf = new mPDF(); //iniciando um pdf
+            $mpdf->WriteHTML($html); // escrever o html que esta no niew report_purchases_pdf
+            $mpdf->Output(); //mostrar o pdf
         } else {
             header("Location: ".BASE_URL);
         }

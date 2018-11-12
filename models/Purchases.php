@@ -173,6 +173,17 @@ class Purchases extends model
         $sql->bindValue(":id_company", $id_company);
         $sql->execute();
     }
+
+    /**
+     * @param $provider_name
+     * @param $period1
+     * @param $period2
+     * @param $status
+     * @param $order
+     * @param $id_company
+     * @return array
+     * responsável por gerar as informações já filtradas
+     */
     public function getPurchasesFiltered($provider_name, $period1, $period2, $status, $order, $id_company)
     {
         $array = array();
@@ -181,7 +192,7 @@ class Purchases extends model
         provider.name,
         purchases.date_purchase,
         purchases.status,
-        pruchases.total_price
+        purchases.total_price
         FROM purchases 
         LEFT JOIN provider ON provider.id = purchases.id_provider
         WHERE ";
@@ -196,7 +207,7 @@ class Purchases extends model
 
         if (!empty($period1) && !empty($period2))
         {
-            $where[] = "purchases.date_purchases BETWEEN :periodo1 AND :periodo2";
+            $where[] = "purchases.date_purchase BETWEEN :periodo1 AND :periodo2";
         }
 
         if ($status != '')
@@ -219,6 +230,8 @@ class Purchases extends model
                 $sql .= " ORDER BY purchases.status";
                 break;
         }
+
+
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":id_company", $id_company);
 

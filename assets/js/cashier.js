@@ -7,9 +7,9 @@ $(function(){
 });
 
 function caixa() {
-    var n1 = parseInt(document.getElementById('n1').value, 10);
-    var n2 = parseInt(document.getElementById('n2').value, 10);
+    var n1 = parseFloat(document.getElementById('n1').value.replace('.', '').replace(',', '.'));
+    var n2 = parseFloat(document.getElementById('n2').value.replace('.', '').replace(',', '.'));
 
-
-   document.getElementById('result').value = n2 - n1;
+    var diferenca = n2 - n1;
+   document.getElementById('result').value = diferenca.toFixed(2);
 }

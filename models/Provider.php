@@ -122,6 +122,21 @@ class Provider extends model
         return $array;
     }
 
+    public function getProviderFiltered($id_company)
+    {
+        $array = array();
+
+        $sql = $this->db->prepare("SELECT name, phone, address_city FROM provider WHERE id_company = :id_company");
+        $sql->bindValue(":id_company", $id_company);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0 ) {
+            $array = $sql->fetchAll();
+        }
+
+        return $array;
+    }
+
 }
 
 
