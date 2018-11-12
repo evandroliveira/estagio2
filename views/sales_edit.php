@@ -1,4 +1,4 @@
-<h1>Compras - Editar</h1>
+<h1>Vendas</h1>
 <strong>Nome do Cliente: </strong>
 <?php echo $cliente; ?><br/><br/>
 
@@ -32,7 +32,7 @@ R$ <?php echo number_format($total, 2); ?><br/><br/>
             <td>
                 <div class="button button_small">
                     <?php if(!$parcela['status']){ ?>
-                        <a href="<?php echo BASE_URL; ?>/purchases/payParcela/<?php echo $parcela['id']; ?>">Pagar</a>
+                        <a href="<?php echo BASE_URL; ?>/sales/payParcela/<?php echo $parcela['id']; ?>">Pagar</a>
                     <?php }else{ ?>
                         Já pago
                     <?php } ?>

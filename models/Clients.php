@@ -45,7 +45,7 @@ class Clients extends model {
 
     public function getName($id)
     {
-        $sql = $this->db->prepare("SELECT `name` FROM sales WHERE id = :id");
+        $sql = $this->db->prepare("SELECT `name` FROM clients WHERE id = :id");
         $sql->bindValue(':id', $id);
         $sql->execute();
 

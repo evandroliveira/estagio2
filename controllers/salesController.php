@@ -51,14 +51,13 @@ class salesController extends controller {
                 $client_id = addslashes($_POST['client_id']);
                 $id_movimento = addslashes($_POST['id_movimento']);
                 $status = addslashes($_POST['status']);
-                $descricao_movimento = addslashes($_POST['descricao_movimento']);
                 $vencimento_movimento = addslashes($_POST['vencimento_movimento']);
                 $pagamento_movimento = addslashes($_POST['pagamento_movimento']);
                 $valor_movimento = addslashes($_POST['total_price']);
                 $parcelas = $_POST['parcela'];
                 $quant = $_POST['quant'];
 
-                $s->addSale($u->getCompany(), $client_id, $u->getId(), $quant, $status, $descricao_movimento, $valor_movimento, $id_movimento, $vencimento_movimento, $pagamento_movimento, $parcelas);
+                $s->addSale($u->getCompany(), $client_id, $u->getId(), $quant, $status, $valor_movimento, $parcelas);
                 header("Location: ".BASE_URL."/sales");
             }
             
@@ -100,7 +99,6 @@ class salesController extends controller {
                 $clients = new Clients();
 
                 $dados = $sal->getSales($id);
-
                 $data['cliente'] = $clients->getName($dados['venda']['id_client']);
                 $data['data_venda'] = essentials::convertView($dados['venda']['date_sale']);
                 $data['total'] = $dados['venda']['total_price'];
@@ -129,11 +127,11 @@ class salesController extends controller {
 
     public function payParcela($id)
     {
-        $p = new Purchases();
+        $p = new Sales();
 
         $p->payParcela($id);
 
-        header("Location: " . BASE_URL . "/purchases");
+        header("Location: " . BASE_URL . "/sales");
     }
 
     public function installment()
