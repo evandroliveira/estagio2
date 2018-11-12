@@ -38,7 +38,7 @@
     <textarea name="internal_obs" id="internal_obs"></textarea><br/><br/>
 
       <label for="address_zipcode">CEP</label><br/>
-    <input type="text" name="address_zipcode"/><br/><br/>
+    <input type="text" name="address_zipcode" onblur="ValidaCep(form1.address_zipcode)"/><br/><br/>
 
     <label for="address">Rua</label><br/>
     <input type="text" name="address"/><br/><br/>
@@ -67,4 +67,5 @@
 </form>
 
 <script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/jquery.mask.js"></script>
-<script type="text/javascript" src="<?php BASE_URL; ?>../assets/js/script_provider_add.js">    </script>
+<script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/script_provider_add.js"></script>
+<script type="text/javascript" src="<?php BASE_URL; ?>../assets/js/mascaraValidacao.js"></script>

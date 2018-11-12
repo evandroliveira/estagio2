@@ -1,17 +1,20 @@
 function calcular() {
-    var n1 = parseInt(document.getElementById('n1').value, 10);
-    var n2 = parseInt(document.getElementById('n2').value, 10);
+    var n1 = parseFloat(document.getElementById('n1').value.replace('.', '').replace(',', '.'));
+    var n1 = parseFloat(document.getElementById('n2').value.replace('.', '').replace(',', '.'));
 
-    document.getElementById('resultado').value = n1 - n2 ;
+    var diferenca = n1 - n2;
+    document.getElementById('resultado').value = diferenca.toFixed(2);
 
 
 }
 
 function parcelas() {
     var n3 = parseInt(document.getElementById('n3').value, 10);
-    var resultado = parseInt(document.getElementById('resultado').value, 10);
+    var resultado = parseFloat(document.getElementById('resultado').value.replace('.', '').replace(',', '.'));
 
-    document.getElementById('result_parcelas').value = resultado / n3;
+    var valor = resultado / n3;
+
+    document.getElementById('result_parcelas').value = valor.toFixed(2);
 }
 
 

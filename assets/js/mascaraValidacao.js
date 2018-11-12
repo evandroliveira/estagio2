@@ -78,6 +78,11 @@ function ValidaData(data){
                 alert('Data Invalida!');                        
 }
 
+$(function () {
+
+    $('input[name=cnpj]').mask('00.000.000./0000-00', {reverse:true, placeholder:"00.000.000/0000-00"});
+});
+
 //valida o CPF digitado
 function ValidarCPF(Objcpf){
         var cpf = Objcpf.value;
