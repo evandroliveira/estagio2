@@ -173,6 +173,25 @@ class Inventory extends model
         return $array;
     }
 
+    public function getMaisVendidos($id_company) {
+        $array = array();
+
+        $sql = $this->db->prepare("
+              SELECT purchases_products.id_company, inventory.name, SUM(purchases_products.quant) qtde FROM inventory 
+              LEFT JOIN purchases_products ON inventory.id = purchases_products.id_product 
+              WHERE purchases_products.id_company = :id_company
+              GROUP BY purchases_products.quant 
+              ORDER BY qtde DESC");
+        $sql->bindValue(":id_company", $id_company);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0 ){
+            $array = $sql->fetchAll();
+        }
+
+        return $array;
+    }
+
 
 }
 

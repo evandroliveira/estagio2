@@ -19,7 +19,7 @@ class Cashier extends model
 
     public function getSaida($id_company) {
         $saida = 0;
-        $sql = "SELECT SUM( total_price) as total FROM purchases WHERE id_company = :id_company";
+        $sql = "SELECT SUM( valor_movimento) as total FROM cad_movimento WHERE id_company = :id_company AND descricao_movimento = 'compra'";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(':id_company', $id_company);
         $sql->execute();
@@ -33,7 +33,7 @@ class Cashier extends model
     public function getEstrada($id_company) {
         $entrada = 0;
 
-        $sql = "SELECT SUM( total_price) as total FROM sales WHERE id_company = :id_company";
+        $sql = "SELECT SUM( valor_movimento) as total FROM cad_movimento WHERE id_company = :id_company AND descricao_movimento = 'venda'";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(':id_company', $id_company);
         $sql->execute();

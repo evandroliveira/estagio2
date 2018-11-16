@@ -1,4 +1,4 @@
-<h1>Compras</h1>
+<h1>Compras - Contas a Pagar</h1>
 
 <div class="button"><a href="<?php echo BASE_URL; ?>/purchases/add">Adicionar Compra</a></div>
 

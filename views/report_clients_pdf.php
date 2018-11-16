@@ -8,12 +8,14 @@
         <th>Nome</th>
         <th>Telefone</th>
         <th>Cidade</th>
+        <th>Estrelas</th>
     </tr>
     <?php foreach($clients_list as $client): ?>
         <tr>
             <td><?php echo $client['name']; ?></td>
             <td><?php echo $client['phone']; ?></td>
             <td width="200"><?php echo $client['address_city']; ?></td>
+            <td><?php echo $client['stars']; ?></td>
 
         </tr>
     <?php endforeach; ?>

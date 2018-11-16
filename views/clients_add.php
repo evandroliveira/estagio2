@@ -10,16 +10,16 @@
 
 <form method="POST" name="form1"   onsubmit="return validar()">
 
-    <label for="name">Nome</label><br/>
+    <label for="name">Nome <span style="color: red;"> @</span></label><br/>
     <input type="text" name="name" required /><br/><br/>
 
-    <label for="email">E-mail</label><br/>
+    <label for="email">E-mail<span style="color: red;"> #</span></label><br/>
     <input type="email" name="email"  /><br/><br/>
 
-    <label for="phone">Telefone</label><br/>
-    <input type="text" name="phone"/><br/><br/>
+    <label for="phone">Telefone<span style="color: red;"> #</span></label><br/>
+    <input type="text" name="phone" onblur="ValidaTelefone(form1.phone)" /><br/><br/>
 
-    <label for="cpf">CPF</label><br/>
+    <label for="cpf">CPF<span style="color: red;"> #</span></label><br/>
     <input type="text" id="cpf" name="cpf" onBlur="ValidarCPF(cpf);"/><br/><br/>
 
     <label for="stars">Estrelas</label><br/>
@@ -35,9 +35,9 @@
     <textarea name="internal_obs" id="internal_obs"></textarea><br><br>
 
     <label for="address_zipcode">CEP</label><br/>
-    <input type="text" name="address_zipcode"/><br/><br/>
+    <input type="text" name="address_zipcode" /><br/><br/>
 
-    <label for="address">Rua</label><br/>
+    <label for="address">Rua<span style="color: red;"> *</span></label><br/>
     <input type="text" name="address"/><br/><br/>
 
     <label for="address_number">Número</label><br/>
@@ -46,16 +46,16 @@
     <label for="address2">Complemento</label><br/>
     <input type="text" name="address2"/><br/><br/>
 
-    <label for="address_neighb">Bairro</label><br/>
+    <label for="address_neighb">Bairro<span style="color: red;"> *</span></label><br/>
     <input type="text" name="address_neighb"/><br/><br/>
 
-    <label for="address_city">cidade</label><br/>
+    <label for="address_city">cidade<span style="color: red;"> *</span></label><br/>
     <input type="text" name="address_city"/><br/><br/>
 
-    <label for="address_state">Estado</label><br/>
+    <label for="address_state">Estado<span style="color: red;"> *</span></label><br/>
     <input type="text" name="address_state"/><br/><br/>
 
-    <label for="address_country">Pais</label><br/>
+    <label for="address_country">Pais<span style="color: red;"> *</span></label><br/>
     <input type="text" name="address_country"/><br/><br/>
 
     <input type="submit" value="Adicionar" />

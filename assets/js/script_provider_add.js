@@ -1,5 +1,5 @@
 $(function () {
-    $('input[name=phone]').mask('(00)-0000-0000', {reverse:false, placeholder:"(00)0000-0000"});
+    $('input[name=phone]').mask('(00)0000-0000', {reverse:false, placeholder:"(00)0000-0000"});
     $('input[name=cellphone]').mask('(00)-00000-0000', {reverse:false, placeholder:"(00)0000-0000"});
     $('input[name=cnpj]').mask('00.000.000/0000-00', {reverse:false, placeholder:"00.000.000/0000-00"});
     $('input[name=address_zipcode]').mask('00000-000', {reverse:true, placeholder:"00000-000"});

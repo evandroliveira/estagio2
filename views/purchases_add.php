@@ -1,13 +1,13 @@
 <h1>Compras - Adicionar</h1>
 
 <form method="POST">
-    <label for="provider_name">Nome do Fornecedor</label><br/>
+    <label for="provider_name">Nome do Fornecedor<span style="color: #FF0000;"> @</span></label><br/>
     <input type="hidden" name="provider_id"/>
-    <input type="text" name="provider_name" id="provider_name" data-type="search_provider"/> <button class="provider_add_button">+</button>
+    <input type="text" name="provider_name" required id="provider_name" data-type="search_provider"/> <button class="provider_add_button">+</button>
     <div style="clear:both"></div>
     <br/><br/>
 
-    <label for="status">Status da Compra</label><br/>
+    <label for="status">Status da Compra<span style="color: #FF0000;"> @</span></label><br/>
     <select name="status" id="status">
         <option value="0">A Prazo</option>
         <option value="1">À Vista</option>
@@ -17,31 +17,31 @@
     <input type="hidden" name="descricao_movimento" value="Compra">
 
 
-    <label for="total_price">Preço da Compra: </label><br>
+    <label for="total_price">Preço da Compra <span style="color: #FF0000;"> *$</span> </label><br>
     <input type="text" name="total_price" value="total_price" id="n1" readonly="readonly"/><br><br>
 
     <fieldset>
         <legend>Parcelas</legend>
 
-        <label for="vencimento_movimento" style="color: red;">Vencimento</label>
-        <input type="date" name="vencimento_movimento" style="width: 150px;"/>
+        <label for="vencimento_movimento">Vencimento<span style="color: #FF0000;"> @</span></label>
+        <input type="date" name="vencimento_movimento" required style="width: 150px;"/>
 
-        <label for="pagamento_movimento" style="margin-left: 10px;">Pagamento</label>
-        <input type="text" name="pagamento_movimento" value="" id="n2" onblur="calcular();" style="width: 180px;"/>
+        <label for="pagamento_movimento" style="margin-left: 10px;">Pagamento<span style="color: #FF0000;"> $</span></label>
+        <input type="text" name="pagamento_movimento" value="0" id="n2" onblur="calcular();" style="width: 180px;"/>
 
-        <label for="valor_movimento" style="margin-left: 15px;">Valor do movimento</label>
+        <label for="valor_movimento" style="margin-left: 15px;">Valor do movimento<span style="color: #FF0000;"> *$</span></label>
         <input type="text" name="valor_movimento" id="resultado" disabled="disabled" style="width: 180px;"/><br><br>
 
         <label for="qtde_parcel">Qtde. Parcelas</label>
         <input type="number" name="qtde_parcel" value="1" id="n3" onblur="parcelas();" style="width: 180px;"/>
 
-        <label for="valor_parcelas" style="margin-left: 10px;">Valor das parcelas</label>
+        <label for="valor_parcelas" style="margin-left: 10px;">Valor das parcelas<span style="color: #FF0000;"> *$</span></label>
         <input type="text" name="valor_parcelas" id="result_parcelas" disabled="disabled" style="width: 180px;"/>
 
         <div id="installment"></div>
     </fieldset>
 
-    <h4>Produtos</h4>
+    <h4>Produtos<span style="color: #FF0000;"> @</span></h4>
 
     <fieldset>
         <legend>Adicionar Produto</legend>

@@ -230,6 +230,48 @@ class reportController extends controller {
         }
     }
 
+    public function vendidos() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+        $company = new Companies($u->getCompany());
+        $data['company_name'] = $company->getName();
+        $data['user_email'] = $u->getEmail();
+
+        if($u->hasPermission('report_view')) {
+
+            $this->loadTemplate("report_vendidos", $data);
+        } else {
+            header("Location: ".BASE_URL);
+        }
+    }
+
+    public function vendidos_pdf() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+
+        if($u->hasPermission('report_view')) {
+            $i = new Inventory();
+            $data['vendidos_list'] = $i->getMaisVendidos($u->getCompany());
+
+            $data['filters'] = $_GET;
+
+            $this->loadLibrary('mpdf60/mpdf');
+
+            ob_start();
+            $this->loadView("report_vendidos_pdf", $data);
+            $html = ob_get_contents();
+            ob_end_clean();
+
+            $mpdf = new mPDF();
+            $mpdf->WriteHTML($html);
+            $mpdf->Output();
+        } else {
+            header("Location: ".BASE_URL);
+        }
+    }
+
     public function clients() {
         $data = array();
         $u = new Users();

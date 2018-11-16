@@ -91,6 +91,7 @@ class Purchases extends model
             } catch (Exception $e) {
                 dd($e->getMessage());
             }
+
         }
     }
     public function payParcela($id)

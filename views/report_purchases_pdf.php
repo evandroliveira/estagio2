@@ -9,7 +9,7 @@
             echo "Filtrado pelo cliente: ".$filters['provider_name'];
         }
         if (!empty($filters['periodo1']) && !empty($filters['periodo2'])) {
-            echo "No período: ".date('d/m/Y', strtotime($filters['periodo1']))." a ".date('d,m,Y', strtotime($filters['periodo2']))."<br>";
+            echo " no período: ".date('d/m/Y', strtotime($filters['periodo1']))." a ".date('d/m/Y', strtotime($filters['periodo2']))."<br>";
         }
         if ($filters['status'] != '') {
             echo "Filtrado com status: ".$statuses[$filters['status']];

@@ -120,7 +120,7 @@ class Clients extends model {
 
 	public function getClientsFiltered($id_company) {
 	    $array = array();
-	    $sql = $this->db->prepare("SELECT name, phone, address_city FROM clients WHERE id_company = :id_company");
+	    $sql = $this->db->prepare("SELECT name, phone, address_city, stars FROM clients WHERE id_company = :id_company");
 	    $sql->bindValue(":id_company", $id_company);
 	    $sql->execute();
 

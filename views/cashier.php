@@ -20,6 +20,7 @@
         </div>
     </div>
 </div>
+<!--
 <div class="db-row">
     <div class="grid-2">
         <div class="db-info">
@@ -49,7 +50,7 @@
 
                 </form>
             </div><!--db-info-body -->
-        </div><!--db-info -->
+<!--  </div><!--db-info -->
     </div><!--grid-2 -->
     <div class="grid-1">
         <div class="db-info">
@@ -61,7 +62,7 @@
 
             </div>
         </div>
-    </div>
+    </div>-->
 
 
 </div>

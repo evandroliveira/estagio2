@@ -1,4 +1,4 @@
-<h1>Vendas</h1>
+<h1>Vendas - Contas a Receber</h1>
 
 <div class="button"><a href="<?php echo BASE_URL; ?>/sales/add">Adicionar Venda</a></div>
 

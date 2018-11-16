@@ -10,19 +10,19 @@
 
 <form method="POST" name="form1">
 
-    <label for="name">Nome</label><br/>
+    <label for="name">Nome<span style="color: #FF0000;"> @</span></label><br/>
     <input type="text" name="name" required /><br/><br/>
 
-    <label for="email">E-mail</label><br/>
+    <label for="email">E-mail<span style="color: #FF0000;"> #</span></label><br/>
     <input type="email" name="email" /><br/><br/>
 
-    <label for="phone">Telefone</label><br/>
+    <label for="phone">Telefone<span style="color: #FF0000;"> #</span></label><br/>
     <input type="text" name="phone" /><br/><br/>
 
-    <label for="cellphone">Celular</label><br/>
+    <label for="cellphone">Celular<span style="color: #FF0000;"> #</span></label><br/>
     <input type="text" name="cellphone" /><br/><br/>
 
-    <label for="cnpj">CNPJ</label><br/>
+    <label for="cnpj">CNPJ<span style="color: #FF0000;"> #</span></label><br/>
     <input type="text" name="cnpj" id="cnpj" onBlur="ValidarCNPJ(form1.cnpj);" onkeyup="FormataCnpj(this,event)" maxlength="18" ng-model="cadastro.cnpj" /><br/><br/>
 
     <label for="stars">Estrelas</label><br/>
@@ -40,7 +40,7 @@
       <label for="address_zipcode">CEP</label><br/>
     <input type="text" name="address_zipcode" onblur="ValidaCep(form1.address_zipcode)"/><br/><br/>
 
-    <label for="address">Rua</label><br/>
+    <label for="address">Rua<span style="color: #FF0000;"> *</span></label><br/>
     <input type="text" name="address"/><br/><br/>
 
     <label for="address_number">Número</label><br/>
@@ -49,16 +49,16 @@
     <label for="address2">Complemento</label><br/>
     <input type="text" name="address2"/><br/><br/>
 
-    <label for="address_neighb">Bairro</label><br/>
+    <label for="address_neighb">Bairro<span style="color: #FF0000;"> *</span></label><br/>
     <input type="text" name="address_neighb"/><br/><br/>
 
-    <label for="address_city">cidade</label><br/>
+    <label for="address_city">Cidade<span style="color: #FF0000;"> *</span></label><br/>
     <input type="text" name="address_city"/><br/><br/>
 
-    <label for="address_state">Estado</label><br/>
+    <label for="address_state">Estado<span style="color: #FF0000;"> *</span></label><br/>
     <input type="text" name="address_state"/><br/><br/>
 
-    <label for="address_country">Pais</label><br/>
+    <label for="address_country">Pais<span style="color: #FF0000;"> *</span></label><br/>
     <input type="text" name="address_country"/><br/><br/>
 
 

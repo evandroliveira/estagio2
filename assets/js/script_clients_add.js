@@ -1,6 +1,5 @@
 $(function(){
-
-    $('input[name=phone]').mask('00-0000-0000', {reverse:true, placeholder:"(00)0000-0000"});
+    $('input[name=phone]').mask('(00)0000-0000', {reverse:false, placeholder:"(00)0000-0000"});
     $('input[name=address_zipcode]').mask('00000-000', {reverse:true, placeholder:"00000-000"});
     $('input[name=cpf]').mask('000.000.000-00', {reverse:true, placeholder:"000.000.000-00"});
 
