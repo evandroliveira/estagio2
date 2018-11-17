@@ -40,7 +40,7 @@
       <label for="address_zipcode">CEP</label><br/>
     <input type="text" name="address_zipcode" onblur="ValidaCep(form1.address_zipcode)"/><br/><br/>
 
-    <label for="address">Rua<span style="color: #FF0000;"> *</span></label><br/>
+    <label for="address">Endereço<span style="color: #FF0000;"> *</span></label><br/>
     <input type="text" name="address"/><br/><br/>
 
     <label for="address_number">Número</label><br/>

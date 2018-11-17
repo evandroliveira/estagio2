@@ -7,7 +7,7 @@
     <div style="clear:both"></div>
     <br/><br/>
 
-    <label for="status">Status da Compra<span style="color: #FF0000;"> @</span></label><br/>
+    <label for="status">Forma de Pagamento<span style="color: #FF0000;"> @</span></label><br/>
     <select name="status" id="status">
         <option value="0">A Prazo</option>
         <option value="1">À Vista</option>

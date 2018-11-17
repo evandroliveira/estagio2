@@ -32,6 +32,13 @@ class cashierController extends controller
 
         $data['movimento'] = $data['entrada'] - $data['saida'];
 
+        $data['dia_lista'] = array();
+        for($q=7;$q>0;$q--) {
+            $data['dia_lista'][] = date('d/m', strtotime('-'.$q.' days')); //cirando um array com 7 registros
+        }
+
+      // $data['lista_entrada'] = $c->getListaEntrada(date('Y-m-d', strtotime('-7 days')), date('Y-m-d'), $u->getCompany());
+
         $this->loadTemplate('cashier', $data);
     }
 

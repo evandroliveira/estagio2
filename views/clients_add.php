@@ -37,7 +37,7 @@
     <label for="address_zipcode">CEP</label><br/>
     <input type="text" name="address_zipcode" /><br/><br/>
 
-    <label for="address">Rua<span style="color: red;"> *</span></label><br/>
+    <label for="address">Endereço<span style="color: red;"> *</span></label><br/>
     <input type="text" name="address"/><br/><br/>
 
     <label for="address_number">Número</label><br/>

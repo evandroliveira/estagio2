@@ -381,6 +381,7 @@ table td {
 
 .grid-2 {
     width: 66%;
+    height: 50px;
     float: left;
 }
 
@@ -393,7 +394,7 @@ table td {
     background-color: #CCC;
     margin-left: 10px;
     margin-right: 10px;
-    height: 100px;
+    height: 60px;
     padding-left: 20px;
 }
 
@@ -414,7 +415,7 @@ table td {
 }
 
 .db-grid-area-count {
-    font-size: 28px;
+    font-size: 18px;
     padding-top: 24px;
 }
 
@@ -464,6 +465,11 @@ table td {
     margin-right: 15px;
     font-size: 18px;
     font-weight: bold;
+}
+.grid-caixa input {
+    width: 150px;
+    margin-left: 10px;
+
 }
 
 .formulario label, select {
