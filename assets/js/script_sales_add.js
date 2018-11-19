@@ -89,7 +89,7 @@ $(function(){
 	$('.client_add_button').on('click', function(e){
 		e.preventDefault();
 
-		var name = $('#client_name').val();
+		var name = $('#provider_name').val();
 		if(name != '' && name.length >= 4) {
 
 			if(confirm('Você deseja adicionar um cliente com nome: '+name+' ?')) {

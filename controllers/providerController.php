@@ -96,7 +96,7 @@ class providerController extends controller
         $data['user_email'] = $u->getEmail();
 
         if ($u->hasPermission('provider_edit')) {
-            $c = new Provider();
+            $p = new Provider();
 
             if (isset($_POST['name']) && !empty($_POST['name'])) {
                 if (isset($_POST['name']) && !empty($_POST['name'])) {
@@ -115,15 +115,16 @@ class providerController extends controller
                     $email = addslashes($_POST['email']);
                     $stars = addslashes($_POST['stars']);
 
-                    $c->edit($u->getCompany(), $name, $cnpj, $phone, $address, $address2, $address_number, $address_neighb, $address_zipcode, $address_state, $address_city, $address_country, $phone, $cellphone, $email, $stars);
-                    header("Location: " . BASE_URL . "/provider");
+                    $p->edit($u->getCompany(), $name, $cnpj, $phone, $address, $address2, $address_number, $address_neighb, $address_zipcode, $address_state, $address_city, $address_country, $phone, $cellphone, $email, $stars);
+                    header("Location: " .BASE_URL. "/provider");
                 }
 
-                $data['client_info'] = $c->getInfo($id, $u->getCompany());
+                $data['provider_info'] = $p->getInfo($id, $u->getCompany());
+
 
                 $this->loadTemplate('provider_edit', $data);
             } else {
-                header("Location: " . BASE_URL . "/provider");
+                header("Location: " .BASE_URL. "/provider");
             }
         }
 

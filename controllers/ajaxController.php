@@ -88,6 +88,21 @@ class ajaxController extends controller {
         echo json_encode($data);
     }
 
+    public function add_provider() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+        $p = new Provider();
+
+        if(isset($_POST['name']) && !empty($_POST['name'])) {
+            $name = addslashes($_POST['name']);
+
+            $data['id'] = $p->add($u->getCompany(), $name);
+        }
+
+        echo json_encode($data);
+    }
+
 }
 
 

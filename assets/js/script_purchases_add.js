@@ -90,7 +90,7 @@ $(function(){
 
     $('input[name=total_price]').mask('000.000.000.000.000,00', {reverse:true, placeholder:"0,00"});
 
-    $('.client_add_button').on('click', function(e){
+    $('.provider_add_button').on('click', function(e){
         e.preventDefault();
 
         var name = $('#provider_name').val();
@@ -178,11 +178,6 @@ $(function(){
 
     });
 
-    $(function () {
-       PagSeguroDirectPayment.getInstallments({
-
-       });
-    });
 
 });
 

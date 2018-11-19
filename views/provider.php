@@ -1,7 +1,7 @@
 <h1>Fornecedores</h1>
-<?php //if($edit_permission): ?>
+<?php if($edit_permission): ?>
     <div class="button"><a href="<?php echo BASE_URL; ?>/provider/add">Adicionar Fornecedor</a></div>
-<?php // endif; ?>
+<?php  endif; ?>
 <input type="text" id="busca" data-type="search_provider" />
 
 <table border="0" width="100%">
@@ -11,17 +11,17 @@
         <th>Cidade</th>
         <th>Ações</th>
     </tr>
-    <?php foreach($provider_list as $c): ?>
+    <?php foreach($provider_list as $p): ?>
         <tr>
-            <td><?php echo $c['name']; ?></td>
-            <td width="110"><?php echo $c['phone']; ?></td>
-            <td width="250"><?php echo $c['address_city']; ?></td>
+            <td><?php echo $p['name']; ?></td>
+            <td width="110"><?php echo $p['phone']; ?></td>
+            <td width="250"><?php echo $p['address_city']; ?></td>
             <td width="160" style="text-align:center">
                 <?php if($edit_permission): ?>
-                    <div class="button button_small"><a href="<?php echo BASE_URL; ?>/provider/edit/<?php echo $c['id']; ?>">Editar</a></div>
-                    <div class="button button_small"><a href="<?php echo BASE_URL; ?>/provider/delete/<?php echo $c['id']; ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a></div>
+                    <div class="button button_small"><a href="<?php echo BASE_URL; ?>/provider/edit/<?php echo $p['id']; ?>">Editar</a></div>
+                    <div class="button button_small"><a href="<?php echo BASE_URL; ?>/provider/delete/<?php echo $p['id']; ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a></div>
                 <?php else: ?>
-                    <div class="button button_small"><a href="<?php echo BASE_URL; ?>/provider/view/<?php echo $c['id']; ?>">Visualizar</a></div>
+                    <div class="button button_small"><a href="<?php echo BASE_URL; ?>/provider/view/<?php echo $p['id']; ?>">Visualizar</a></div>
                 <?php endif; ?>
             </td>
         </tr>
