@@ -200,6 +200,7 @@ button,
     line-height: 40px;
     border-radius: 3px;
     padding-left: 20px;
+    margin-bottom: 5px;
     padding-right: 20px;
     cursor: pointer;
     font-size: 13px;
@@ -394,7 +395,7 @@ table td {
     background-color: #CCC;
     margin-left: 10px;
     margin-right: 10px;
-    height: 60px;
+    height: 40px;
     padding-left: 20px;
 }
 
@@ -415,8 +416,8 @@ table td {
 }
 
 .db-grid-area-count {
-    font-size: 18px;
-    padding-top: 24px;
+    font-size: 15px;
+    padding-top: 5px;
 }
 
 .db-grid-area-legend {
@@ -482,6 +483,7 @@ table td {
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }
+
 
 
 

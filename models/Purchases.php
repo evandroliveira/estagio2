@@ -54,6 +54,7 @@ class Purchases extends model
                 $sqlp->bindValue(":quant", $quant_prod);
                 $sqlp->bindValue(":purchase_price", $price);
 
+
                 $sqlp->execute();
                 //Dar baixa no estoque
                 $i->increase($id_prod, $id_company, $quant_prod, $id_user);
@@ -96,6 +97,11 @@ class Purchases extends model
     }
     public function payParcela($id)
     {
+        $sqlCaixa = $this->db->prepare("SELECT id FROM caixa WHERE status = 1");
+        $sqlCaixa->execute();
+
+        $idCaixa = $sqlCaixa->fetchAll()[0]['id'];
+
         $sqlParcela = $this->db->prepare("SELECT cp.* FROM cad_parcelas as cp  WHERE cp.id_parcela = :id_parcela");
         $sqlParcela->bindValue(":id_parcela", $id);
         $sqlParcela->execute();
@@ -107,14 +113,20 @@ class Purchases extends model
         $sql = $this->db->prepare("INSERT INTO cad_movimento SET
                           id_company = :id_company,
                           id_provider = :id_provider,
+                          id_caixa = :id_caixa,
                           data_movimento = NOW(),
                           descricao_movimento = :descricao_movimento,
                           valor_movimento = :valor_movimento");
         $sql->bindValue(":id_company", $parcela['id_company']);
         $sql->bindValue(":id_provider", $parcela['id_provider']);
+        $sql->bindValue(":id_caixa", $idCaixa);
         $sql->bindValue(":descricao_movimento", 'compra');
         $sql->bindValue(":valor_movimento", $parcela['valor_movimento']);
         $sql->execute();
+
+
+
+
     }
     public function getPurchases($id)
     {

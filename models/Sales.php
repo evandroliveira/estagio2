@@ -52,21 +52,21 @@ class Sales extends model
 
 
         foreach ($quant as $id_prod => $quant_prod) {
-            $sql = $this->db->prepare("SELECT price FROM inventory WHERE id = :id AND id_company = :id_company");
+            $sql = $this->db->prepare("SELECT price_sale FROM inventory WHERE id = :id AND id_company = :id_company");
             $sql->bindValue(":id", $id_prod);
             $sql->bindValue(":id_company", $id_company);
             $sql->execute();
 
             if ($sql->rowCount() > 0) {
                 $row = $sql->fetch();
-                $price = $row['price'];
+                $price = $row['price_sale'];
 
                 $sqlp = $this->db->prepare("INSERT INTO sales_products SET id_company = :id_company, id_sale = :id_sale, id_product = :id_product, quant = :quant, price_sale = :price_sale");
                 $sqlp->bindValue(":id_company", $id_company);
                 $sqlp->bindValue(":id_sale", $id_sale);
                 $sqlp->bindValue(":id_product", $id_prod);
                 $sqlp->bindValue(":quant", $quant_prod);
-                $sqlp->bindValue(":price_sale", $price_sale);
+                $sqlp->bindValue(":price_sale", $price);
                 $sqlp->execute();
                 //Dar baixa no estoque
                 $i->decrease($id_prod, $id_company, $quant_prod, $id_user);
@@ -116,6 +116,11 @@ class Sales extends model
 
     public function payParcela($id)
     {
+        $sqlCaixa = $this->db->prepare("SELECT id FROM caixa WHERE status = 1");
+        $sqlCaixa->execute();
+
+        $idCaixa = $sqlCaixa->fetchAll()[0]['id'];
+
         $sqlParcela = $this->db->prepare("SELECT cp.* FROM cad_parcelas_cli as cp  WHERE cp.id_parcela = :id_parcela");
         $sqlParcela->bindValue(":id_parcela", $id);
         $sqlParcela->execute();
@@ -146,11 +151,13 @@ class Sales extends model
         $sql = $this->db->prepare("INSERT INTO cad_movimento SET
                           id_company = :id_company,
                           id_client = :id_client,
+                          id_caixa = :id_caixa,
                           data_movimento = NOW(),
                           descricao_movimento = :descricao_movimento,
                           valor_movimento = :valor_movimento");
         $sql->bindValue(":id_company", $parcela['id_company']);
         $sql->bindValue(":id_client", $parcela['id_client']);
+        $sql->bindValue(":id_caixa", $idCaixa);
         $sql->bindValue(":descricao_movimento", 'venda');
         $sql->bindValue(":valor_movimento", $parcela['valor_movimento']);
         $sql->execute();

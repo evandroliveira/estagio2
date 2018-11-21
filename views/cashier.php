@@ -1,18 +1,9 @@
 <h4 style="font-size: 18px; margin-top: 0">Caixa</h4>
 <div class="grid-caixa">
-    <form>
-        <input type="text" value="<?=date('d/m/Y')?>">
-        <label>Saldo Inicial:</label>
-        <input type="text" name="opening_balance" id="n1" >
+           <a href="<?php echo BASE_URL; ?>/cashier_open">Abrir</a>
 
-        <label>Saldo Final:</label>
-        <input type="text" name="final_balance" id="n2" onblur="caixa();" >
+            <a href="<?php echo BASE_URL; ?>/cashier_open/close/<?php echo $movimento ?>">Fechar</a>
 
-        <label>Diferença</label>
-        <input type="text" name="difference" id="result"  >
-
-        <input type="submit" value="Abrir" >
-    </form>
 </div>
 
 <div class="db-row row1">
@@ -39,26 +30,20 @@
 <div class="db-row row2">
     <div class="grid-2">
         <div class="db-info">
-            <div class="db-info-title">Entrada e saida do dia</div>
+            <div class="db-info-title">Entrada e saida dos últimos 7 dias</div>
             <div class="db-info-body" style="height: 300px">
                 <canvas id="rel1"></canvas>
             </div>
         </div>
     </div>
-    <div class="grid-1">
-        <div class="db-info">
-            <div class="db-info-title">Movimentação</div>
-            <div class="db-info-body">
-                <canvas id="rel2" height="300"></canvas>
-            </div>
-        </div>
-    </div>
+
 </div>
 
 
 </div>
 <script type="text/javascript">
-    var dia_lista = <?php echo json_encode($dia_lista) ?>;
+    var days_list = <?php echo json_encode($days_list); ?>;
+    var input_list = <?php echo json_encode(array_values($input_list)); ?>;
 </script>
 <script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/jquery.mask.js"></script>
 <script type="text/javascript" src="<?php echo BASE_URL; ?>/assets/js/cashier.js"></script>

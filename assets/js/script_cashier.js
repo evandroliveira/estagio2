@@ -2,24 +2,24 @@
         //tipo de grafico
         type:'line',
         data:{  //dados inserido no grafico
-            labels: dia_lista,   //os tipos de informação que vai ter na horizontal
+            labels: days_list,   //os tipos de informação que vai ter na horizontal
             datasets:[{
                 label:'Entrada',
-                data:[3,6,4,9, 4, 2 , 3 ],
+                data:input_list,
                 fill:false,
                 backdropColor: '#0000FF',
                 borderColor: '#0000FF'
             },
                 {
                     label:'Saída',
-                    data:[2, 5, 3, 5, 3, 1, 2],
+                    data:[100, 150, 3, 6, 5, 2, 4],
                     fill:false,
                     backdropColor: '#FF0000',
                     borderColor: '#FF0000'
                 },
                 {
                     label:'Movimento',
-                    data:[3, 6, 2, 6, 2, 1, 4],
+                    data:[39, 69, 20, 65, 200, 100, 49],
                     fill:false,
                     backgroundColor: '#008000',
                     borderColor: '#008000'
