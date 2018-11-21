@@ -315,20 +315,20 @@ class reportController extends controller {
     }
 
     public function provider() {
-        $data = array();
-        $u = new Users();
-        $u->setLoggedUser();
-        $company = new Companies($u->getCompany());
-        $data['company_name'] = $company->getName();
-        $data['user_email'] = $u->getEmail();
+    $data = array();
+    $u = new Users();
+    $u->setLoggedUser();
+    $company = new Companies($u->getCompany());
+    $data['company_name'] = $company->getName();
+    $data['user_email'] = $u->getEmail();
 
-        if($u->hasPermission('report_view')) {
+    if($u->hasPermission('report_view')) {
 
-            $this->loadTemplate("report_provider", $data);
-        } else {
-            header("Location: ".BASE_URL);
-        }
+        $this->loadTemplate("report_provider", $data);
+    } else {
+        header("Location: ".BASE_URL);
     }
+}
 
     public function provider_pdf() {
         $data = array();
@@ -345,6 +345,51 @@ class reportController extends controller {
 
             ob_start();
             $this->loadView("report_provider_pdf", $data);
+            $html = ob_get_contents();
+            ob_end_clean();
+
+            $mpdf = new mPDF();
+            $mpdf->WriteHTML($html);
+            $mpdf->Output();
+        } else {
+            header("Location: ".BASE_URL);
+        }
+    }
+
+    public function cashier() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+        $company = new Companies($u->getCompany());
+        $data['company_name'] = $company->getName();
+        $data['user_email'] = $u->getEmail();
+
+        if($u->hasPermission('report_view')) {
+
+            $this->loadTemplate("report_cashier", $data);
+        } else {
+            header("Location: ".BASE_URL);
+        }
+    }
+
+    public function cashier_pdf() {
+        $data = array();
+        $u = new Users();
+        $u->setLoggedUser();
+
+        if($u->hasPermission('report_view')) {
+            $period1 = addslashes($_GET['period1']);
+            $period2 = addslashes($_GET['period2']);
+
+            $s = new Cashier();
+            $data['cashier_list'] = $s->getCashierFiltered($period1, $period2, $u->getCompany());
+
+            $data['filters'] = $_GET;
+
+            $this->loadLibrary('mpdf60/mpdf');
+
+            ob_start();
+            $this->loadView("report_cashier_pdf", $data);
             $html = ob_get_contents();
             ob_end_clean();
 

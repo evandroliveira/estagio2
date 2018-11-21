@@ -110,10 +110,10 @@ class Cashier extends model
 
     public function add_cashier($id_company, $date_cashier, $opening_balance)
     {
-        $sqlS = $this->db->prepare("SELECT * FROM caixa WHERE status = 1");
+        $sqlS = $this->db->prepare("SELECT status FROM caixa WHERE status = 1");
         $sqlS->execute();
 
-        if ($sqlS->rowCount() > 0) {
+        if ($sqlS->rowCount() == 1) {
             ?>
             <script>alert("Não é possivel deixar mais de um caixa aberto.")</script>
 
@@ -174,5 +174,38 @@ class Cashier extends model
 //        return $array;
 //    }
 
+    public function getCashierFiltered( $period1, $period2, $id_company)
+    {
 
+        $array = array();
+
+        $sql = "SELECT *
+		FROM caixa
+		WHERE ";
+
+        $where = array();
+        $where[] = "id_company = :id_company";
+
+        if (!empty($period1) && !empty($period2)) {
+            $where[] = "date_cashier BETWEEN :period1 AND :period2";
+        }
+
+        $sql .= implode(' AND ', $where);
+
+
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id_company", $id_company);
+
+        if (!empty($period1) && !empty($period2)) {
+            $sql->bindValue(":period1", $period1);
+            $sql->bindValue(":period2", $period2);
+        }
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll();
+        }
+
+        return $array;
+    }
 }

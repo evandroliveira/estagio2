@@ -23,6 +23,7 @@ class cashierController extends controller
         $data['company_name'] = $company->getName();
         $data['user_email'] = $u->getEmail();
 
+
         $c = new Cashier();
 
 

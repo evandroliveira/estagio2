@@ -1,8 +1,8 @@
 <h4 style="font-size: 18px; margin-top: 0">Caixa</h4>
 <div class="grid-caixa">
-           <a href="<?php echo BASE_URL; ?>/cashier_open">Abrir</a>
+           <a href="<?php echo BASE_URL; ?>/cashier_open" class="button">Abrir</a>
 
-            <a href="<?php echo BASE_URL; ?>/cashier_open/close/<?php echo $movimento ?>">Fechar</a>
+            <a href="<?php echo BASE_URL; ?>/cashier_open/close/<?php echo $movimento ?>" class="button" style="background: #AA0000;">Fechar</a>
 
 </div>
 
