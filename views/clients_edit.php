@@ -1,7 +1,7 @@
 <h1>Clientes - Editar</h1>
 
 <?php if(isset($error_msg) && !empty($error_msg)): ?>
-<div class="warn"><?php echo $error_msg; ?></div>
+    <div class="warn"><?php echo $error_msg; ?></div>
 <?php endif; ?>
 
 <form method="POST">

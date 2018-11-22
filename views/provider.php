@@ -1,3 +1,10 @@
+<?php
+if (isset($return) && !empty($return)) { ?>
+    <div style="width: 40%; border-radius: 5px; padding: 15px;color: white; background:<?php echo ($return['tipo'] == 'erro') ? '#B22222' : '#228B22'; ?>">
+        <?php echo $return['msg']; ?>
+    </div>
+<?php } ?>
+
 <h1>Fornecedores</h1>
 <?php if($edit_permission): ?>
     <div class="button"><a href="<?php echo BASE_URL; ?>/provider/add">Adicionar Fornecedor</a></div>

@@ -3,11 +3,12 @@ body {
     padding: 0;
     font-size: 13px;
     font-family: Arial;
+    background-color: #CCCFAF;
 }
 
 .leftmenu {
     width: 200px;
-    background-color: lightgreen;
+    background-color: #373f42/*lightgreen*/;
     position: fixed;
     left: 0;
     top: 0;
@@ -28,7 +29,7 @@ body {
 
 .top {
     height: 40px;
-    background-color: lightgreen;
+    background-color: #373f42 /*lightgreen*/;
     color: #FFF;
     font-size: 13px;
 }
@@ -67,7 +68,7 @@ body {
 }
 
 .menuarea li:hover {
-    background-color: #97dfa3;
+    background-color: #373f39;
 }
 
 .menuarea li a {
@@ -194,7 +195,7 @@ input[type=submit],
 button,
 .button {
     border: 0px;
-    background-color: #72cc72;
+    background-color: #373f42;
     color: #FFF;
     height: 40px;
     line-height: 40px;
@@ -355,7 +356,8 @@ table td {
 .report_item {
     width: 150px;
     height: 140px;
-    background-color: #CCC;
+    background-color: #CCCFA1;
+    border: 1px solid #000000;
     float: left;
     margin: 20px;
     padding: 20px;
@@ -393,11 +395,12 @@ table td {
 }
 
 .db-grid-area {
-    background-color: #CCC;
+    background-color: #CCCFAF;
     margin-left: 10px;
     margin-right: 10px;
     height: 40px;
     padding-left: 20px;
+    border: 1px solid #000000;
 }
 
 .row1 .grid-1:nth-child(1) .db-grid-area {

@@ -85,7 +85,7 @@ class Provider extends model
         return $this->db->lastInsertId();
     }
 
-    public function edit($id_company, $name, $cnpj, $address, $address_number, $address_neighb, $address_zipcode, $address_state, $address_city, $phone, $cellphone, $email, $stars = 3, $internal_obs)
+    public function edit($id_company, $name,  $email, $cnpj, $address, $address_number, $address_neighb, $address_zipcode, $address_state, $address_city, $phone, $cellphone, $email, $stars = 3, $internal_obs)
     {
 
         $sql = $this->db->prepare("UPDATE provider SET id = :id, name = :name, cnpj = :cnpj, address = :address, address_number = :address_number, bairro = :bairro, address_zipcode = :address_zipcode, address_state = :address_state, city = :city, phone = :phone, cellphone = :cellphone, email = :email, status = :status WHERE id = :id");
@@ -105,6 +105,38 @@ class Provider extends model
         $sql->bindValue(":internal_obs", $internal_obs);
         $sql->execute();
 
+    }
+
+    public function deleteProvider($id, $id_company)
+    {
+
+
+        $sql = $this->db->prepare("
+                      SELECT provider.name, purchases.total_price
+                      FROM provider 
+                      LEFT JOIN purchases ON purchases.id_provider = provider.id 
+                      WHERE purchases.id_provider = :id");
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+        if ($sql->rowCount() > 0) {
+            $return = [
+                'msg' => "Existem compras relacionadas a este fornecedor. Não pode ser excluído",
+                'tipo' => 'erro'
+            ];
+
+        } else {
+            $sql = $this->db->prepare("DELETE  FROM provider WHERE id_company = :id_company AND id = :id");
+            $sql->bindValue(":id", $id);
+            $sql->bindValue(":id_company", $id_company);
+            $sql->execute();
+
+            $return = [
+                'msg' => "Fornecedor deletado com sucesso!",
+                'tipo' => 'success'
+            ];
+        }
+
+        return $return;
     }
 
     public function searchProviderByName($name, $id)
