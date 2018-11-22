@@ -108,7 +108,7 @@ class providerController extends controller
                     $address_number = addslashes($_POST['address_number']);
                     $address_neighb = addslashes($_POST['address_neighb']);
                     $address_zipcode = addslashes($_POST['address_zipcode']);
-                    $address_state = addslashes($_POST['$address_state']);
+                    $address_state = addslashes($_POST['address_state']);
                     $address_city = addslashes($_POST['address_city']);
                     $address_country = addslashes($_POST['address_country']);
                     $phone = addslashes($_POST['phone']);
@@ -116,7 +116,7 @@ class providerController extends controller
                     $email = addslashes($_POST['email']);
                     $stars = addslashes($_POST['stars']);
 
-                    $p->edit($u->getCompany(), $name,  $email, $phone, $cellphone, $cnpj, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2,  $address_neighb, $address_city, $address_state, $address_country);
+                    $p->edit($id, $u->getCompany(), $name,  $email, $phone, $cellphone, $cnpj, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2,  $address_neighb, $address_city, $address_state, $address_country);
                     header("Location: " .BASE_URL. "/provider");
                 }
 

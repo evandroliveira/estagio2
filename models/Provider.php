@@ -85,22 +85,26 @@ class Provider extends model
         return $this->db->lastInsertId();
     }
 
-    public function edit($id_company, $name,  $email, $cnpj, $address, $address_number, $address_neighb, $address_zipcode, $address_state, $address_city, $phone, $cellphone, $email, $stars = 3, $internal_obs)
+    public function edit($id, $id_company, $name,  $email, $phone, $cellphone, $cnpj, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2,  $address_neighb, $address_city, $address_state, $address_country)
     {
 
-        $sql = $this->db->prepare("UPDATE provider SET id = :id, name = :name, cnpj = :cnpj, address = :address, address_number = :address_number, bairro = :bairro, address_zipcode = :address_zipcode, address_state = :address_state, city = :city, phone = :phone, cellphone = :cellphone, email = :email, status = :status WHERE id = :id");
-        $sql->bindValue(":$id_company", $id_company);
+        $sql = $this->db->prepare("UPDATE provider SET id_company = :id_company, name = :name, cnpj = :cnpj, address = :address, address2 = :address2, address_number = :address_number, address_neighb = :address_neighb, address_zipcode = :address_zipcode, address_state = :address_state, address_city = :address_city, address_country = :address_country, phone = :phone, cellphone = :cellphone, email = :email, stars = :stars WHERE id = :id");
+
+        $sql->bindValue(":id_company", $id_company);
         $sql->bindValue(":name", $name);
         $sql->bindValue(":cnpj", $cnpj);
         $sql->bindValue(":address", $address);
+        $sql->bindValue(":address2", $address2);
         $sql->bindValue(":address_number", $address_number);
         $sql->bindValue(":address_neighb", $address_neighb);
         $sql->bindValue(":address_zipcode", $address_zipcode);
         $sql->bindValue(":address_state", $address_state);
         $sql->bindValue(":address_city", $address_city);
+        $sql->bindValue(":address_country", $address_country);
         $sql->bindValue(":phone", $phone);
         $sql->bindValue(":cellphone", $cellphone);
         $sql->bindValue(":email", $email);
+        $sql->bindValue(":id", $id);
         $sql->bindValue(":stars", $stars);
         $sql->bindValue(":internal_obs", $internal_obs);
         $sql->execute();

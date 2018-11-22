@@ -18,6 +18,9 @@
     <label for="cellphone">Celular</label><br/>
     <input type="text" name="cellphone" value="<?php echo $provider_info['cellphone']; ?>" /><br/><br/>
 
+    <label for="cnpj">CNPJ<span style="color: #FF0000;"> #</span></label><br/>
+    <input type="text" name="cnpj" value="<?php echo $provider_info['cnpj']; ?> "/><br/><br/>
+
     <label for="stars">Estrelas</label><br/>
     <select name="stars" id="stars">
         <option value="1" <?php echo ($provider_info['stars']=='1')?'selected="selected"':''; ?>>1 Estrela</option>
