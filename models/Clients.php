@@ -1,47 +1,52 @@
 <?php
-class Clients extends model {
 
-	public function getList($offset, $id_company) {
-		$array = array();
+class Clients extends model
+{
 
-		$sql = $this->db->prepare("SELECT * FROM clients WHERE id_company = :id_company LIMIT $offset, 10");
-		$sql->bindValue(':id_company', $id_company);
-		$sql->execute();
+    public function getList($offset, $id_company)
+    {
+        $array = array();
 
-		if($sql->rowCount() > 0) {
-			$array = $sql->fetchAll();
-		}
+        $sql = $this->db->prepare("SELECT * FROM clients WHERE id_company = :id_company LIMIT $offset, 10");
+        $sql->bindValue(':id_company', $id_company);
+        $sql->execute();
 
-		return $array;
-	}
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll();
+        }
 
-	public function getInfo($id, $id_company) {
-		$array = array();
+        return $array;
+    }
 
-		$sql = $this->db->prepare("SELECT * FROM clients WHERE id = :id AND id_company = :id_company");
-		$sql->bindValue(":id", $id);
-		$sql->bindValue(":id_company", $id_company);
-		$sql->execute();
+    public function getInfo($id, $id_company)
+    {
+        $array = array();
 
-		if($sql->rowCount() > 0) {
-			$array = $sql->fetch();
-		}
+        $sql = $this->db->prepare("SELECT * FROM clients WHERE id = :id AND id_company = :id_company");
+        $sql->bindValue(":id", $id);
+        $sql->bindValue(":id_company", $id_company);
+        $sql->execute();
 
-		return $array;
-	}
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetch();
+        }
 
-	public function getCount($id_company) {
-		$r = 0;
+        return $array;
+    }
 
-		$sql = $this->db->prepare("SELECT COUNT(*) as c FROM clients WHERE id_company = :id_company");
-		$sql->bindValue(':id_company', $id_company);
-		$sql->execute();
-		$row = $sql->fetch();
+    public function getCount($id_company)
+    {
+        $r = 0;
 
-		$r = $row['c'];
+        $sql = $this->db->prepare("SELECT COUNT(*) as c FROM clients WHERE id_company = :id_company");
+        $sql->bindValue(':id_company', $id_company);
+        $sql->execute();
+        $row = $sql->fetch();
 
-		return $r;
-	}
+        $r = $row['c'];
+
+        return $r;
+    }
 
     public function getName($id)
     {
@@ -56,7 +61,8 @@ class Clients extends model {
         return $r;
     }
 
-    public function add($id_company, $name, $email = '', $phone = '', $cpf = '', $stars = '3', $internal_obs = '', $address_zipcode = '', $address = '', $address_number = '', $address2 = '', $address_neighb = '', $address_city = '', $address_state = '', $address_country = '') {
+    public function add($id_company, $name, $email = '', $phone = '', $cpf = '', $stars = '3', $internal_obs = '', $address_zipcode = '', $address = '', $address_number = '', $address2 = '', $address_neighb = '', $address_city = '', $address_state = '', $address_country = '')
+    {
 
         $sql = $this->db->prepare("INSERT INTO clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, cpf = :cpf, stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neighb = :address_neighb, address_city = :address_city, address_state = :address_state, address_country = :address_country");
         $sql->bindValue(":id_company", $id_company);
@@ -79,58 +85,92 @@ class Clients extends model {
         return $this->db->lastInsertId();
     }
 
-	public function edit($id, $id_company, $name, $email, $phone, $cpf, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country) {
+    public function edit($id, $id_company, $name, $email, $phone, $cpf, $stars, $internal_obs, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country)
+    {
 
-		$sql = $this->db->prepare("UPDATE clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, cpf = :cpf,  stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neighb = :address_neighb, address_city = :address_city, address_state = :address_state, address_country = :address_country WHERE id = :id AND id_company = :id_company2");
-		$sql->bindValue(":id_company", $id_company);
-		$sql->bindValue(":name", $name);
-		$sql->bindValue(":email", $email);
-		$sql->bindValue(":phone", $phone);
-		$sql->bindValue(":cpf", $cpf);
-		$sql->bindValue(":stars", $stars);
-		$sql->bindValue(":internal_obs", $internal_obs);
-		$sql->bindValue(":address_zipcode", $address_zipcode);
-		$sql->bindValue(":address", $address);
-		$sql->bindValue(":address_number", $address_number);
-		$sql->bindValue(":address2", $address2);
-		$sql->bindValue(":address_neighb", $address_neighb);
-		$sql->bindValue(":address_city", $address_city);
-		$sql->bindValue(":address_state", $address_state);
-		$sql->bindValue(":address_country", $address_country);
-		$sql->bindValue(":id", $id);
-		$sql->bindValue(":id_company2", $id_company);
-		$sql->execute();
+        $sql = $this->db->prepare("UPDATE clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, cpf = :cpf,  stars = :stars, internal_obs = :internal_obs, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neighb = :address_neighb, address_city = :address_city, address_state = :address_state, address_country = :address_country WHERE id = :id AND id_company = :id_company2");
+        $sql->bindValue(":id_company", $id_company);
+        $sql->bindValue(":name", $name);
+        $sql->bindValue(":email", $email);
+        $sql->bindValue(":phone", $phone);
+        $sql->bindValue(":cpf", $cpf);
+        $sql->bindValue(":stars", $stars);
+        $sql->bindValue(":internal_obs", $internal_obs);
+        $sql->bindValue(":address_zipcode", $address_zipcode);
+        $sql->bindValue(":address", $address);
+        $sql->bindValue(":address_number", $address_number);
+        $sql->bindValue(":address2", $address2);
+        $sql->bindValue(":address_neighb", $address_neighb);
+        $sql->bindValue(":address_city", $address_city);
+        $sql->bindValue(":address_state", $address_state);
+        $sql->bindValue(":address_country", $address_country);
+        $sql->bindValue(":id", $id);
+        $sql->bindValue(":id_company2", $id_company);
+        $sql->execute();
 
-	}
+    }
 
-	
-	public function searchClientByName($name, $id_company) {
-		$array = array();
+    public function deleteClient($id, $id_company)
+    {
 
-		$sql = $this->db->prepare("SELECT name, id FROM clients WHERE name LIKE :name LIMIT 10");
-		$sql->bindValue(':name', '%'.$name.'%');
-		$sql->execute();
 
-		if($sql->rowCount() > 0) {
-			$array = $sql->fetchAll();
-		}
+        $sql = $this->db->prepare("
+                      SELECT clients.name, sales.total_price
+                      FROM clients 
+                      LEFT JOIN sales ON sales.id_client = clients.id 
+                      WHERE sales.id_client = :id");
+        $sql->bindValue(":id", $id);
+        $sql->execute();
 
-		return $array;
-	}
+        if ($sql->rowCount() > 0) {
+            $return = [
+                'msg' => "Existem vendas relacionadas a este cliente. Não pode ser excluído",
+                'tipo' => 'erro'
+            ];
+        } else {
+            $sql = $this->db->prepare("DELETE  FROM clients WHERE id_company = :id_company AND id = :id");
+            $sql->bindValue(":id", $id);
+            $sql->bindValue(":id_company", $id_company);
+            $sql->execute();
 
-	public function getClientsFiltered($id_company) {
-	    $array = array();
-	    $sql = $this->db->prepare("SELECT name, phone, address_city, stars FROM clients WHERE id_company = :id_company");
-	    $sql->bindValue(":id_company", $id_company);
-	    $sql->execute();
+            $return = [
+                'msg' => "Cliente deletado com sucesso!",
+                'tipo' => 'success'
+            ];
+        }
 
-	    if ($sql->rowCount() > 0 )
-        {
+        return $return;
+    }
+
+
+    public function searchClientByName($name, $id_company)
+    {
+        $array = array();
+
+        $sql = $this->db->prepare("SELECT name, id FROM clients WHERE name LIKE :name LIMIT 10");
+        $sql->bindValue(':name', '%' . $name . '%');
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll();
+        }
+
+        return $array;
+    }
+
+    public function getClientsFiltered($id_company)
+    {
+        $array = array();
+        $sql = $this->db->prepare("SELECT name, phone, address_city, stars FROM clients WHERE id_company = :id_company");
+        $sql->bindValue(":id_company", $id_company);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
             return $array = $sql->fetchAll();
         }
 
 
-	    return $array();
+        return $array();
     }
 
 

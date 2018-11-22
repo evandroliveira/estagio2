@@ -39,7 +39,7 @@ class cashierController extends controller
         }
 
         $data['input_list'] = $c->getInputList(date('Y-m-d', strtotime('-7 days')), date('Y-m-d'), $u->getCompany());
-//dd($data);
+
         //$data['exit_list'] = $c->getExitList(date('Y-m-d', strtotime('-7 days')), date('Y-d-m'), $u->getCompany());
         $this->loadTemplate('cashier', $data);
     }

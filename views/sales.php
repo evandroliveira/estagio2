@@ -1,4 +1,5 @@
 <h1>Vendas - Contas a Receber</h1>
+<input type="text" id="busca" data-type="search_clients" />
 
 <div class="button"><a href="<?php echo BASE_URL; ?>/sales/add">Adicionar Venda</a></div>
 

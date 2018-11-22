@@ -149,10 +149,10 @@ class Cashier extends model
 //    public function getExitList($period1, $period2, $id_company)
 //    {
 //        $array = array();
-//        $currentDay = $period1;
-//        while ($period2 != $currentDay) {
-//            $array[$currentDay] = 0;
-//            $currentDay = date('Y-m-d', strtotime('+1 day', strtotime($currentDay)));
+//        $currentDayE = $period1;
+//       while ($period2 != $currentDayE) {
+//           $array[$currentDayE] = 0;
+//           $currentDay = date('Y-m-d', strtotime('+1 day', strtotime($currentDayE)));
 //        }
 //
 //        $sql = "SELECT DATE_FORMAT(data_movimento, '%Y-%m-%d') as data_movimento, SUM(valor_movimento) as total FROM cad_movimento WHERE id_company = :id_company AND descricao_movimento = 'compra'  AND data_movimento BETWEEN :period1 AND :period2 GROUP BY DATE_FORMAT(data_movimento, '%Y-%m-%d')";
@@ -165,8 +165,8 @@ class Cashier extends model
 //        if ($sql->rowCount() > 0) {
 //            $rows = $sql->fetchAll();
 //
-//            foreach ($rows as $mov_item) {
-//                $array[$mov_item['data_movimento']] = $mov_item['total'];
+//            foreach ($rows as $mov_item_saida) {
+//                $array[$mov_item_saida['data_movimento']] = $mov_item_saida['total'];
 //            }
 //        }
 //
@@ -179,7 +179,7 @@ class Cashier extends model
 
         $array = array();
 
-        $sql = "SELECT *
+        $sql = "SELECT *,(final_balance-opening_balance) as dif
 		FROM caixa
 		WHERE ";
 

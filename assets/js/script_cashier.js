@@ -12,14 +12,14 @@
             },
                 {
                     label:'Saída',
-                    data:[100, 150, 3, 6, 5, 2, 4],
+                    data:[100, 150, 3, 450, 5, 150, 220],
                     fill:false,
                     backdropColor: '#FF0000',
                     borderColor: '#FF0000'
                 },
                 {
                     label:'Movimento',
-                    data:[39, 69, 20, 65, 200, 100, 49],
+                    data:[39, 69, 20, 650, 200, 100, 49],
                     fill:false,
                     backgroundColor: '#008000',
                     borderColor: '#008000'

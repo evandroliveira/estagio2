@@ -14,7 +14,7 @@
     </header>
 
                 <div class="logoarea">
-                    <h1>Cantinho Verde</h1>
+                    <h4>Cantinho Verde</h4>
                 </div>
 
                 <div class="loginarea" >

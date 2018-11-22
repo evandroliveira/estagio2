@@ -26,6 +26,7 @@ class Purchases extends model
     }
     public function addPurchases($id_company, $id_provider, $id_user, $quant, $status, $descricao_movimento, $valor_movimento, $id_movimento, $vencimento_movimento, $pagamento_movimento, $parcelas)
     {
+
         $i = new Inventory();
         //Adicionando a compra com o preço zerado
         $sql = $this->db->prepare("INSERT INTO purchases SET id_company = :id_company, id_provider = :id_provider,  id_user = :id_user, date_purchase = NOW(), total_price = :total_price,  status = :status");

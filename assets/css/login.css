@@ -63,13 +63,13 @@ video {
 }
 .logoarea {
 	position: absolute;
-	left: 32%;
-	top: 65px;
+	left: 35%;
+	top: 95px;
 	display: inline;
-	font-size: 30px;
-	color: green;
-	font-family: 'Indie Flower', cursive;
-	text-shadow: 2px 2px 4px #ccc;
+	font-size: 35px;
+	color: white;
+	font-family: 'Arial';
+	text-shadow: 1px 1px 4px #ccc;
 }
 .fundo {
 	z-index: -10;

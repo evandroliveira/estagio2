@@ -1,5 +1,6 @@
 <h1>Compras - Adicionar</h1>
 
+
 <form method="POST">
     <label for="provider_name">Nome do Fornecedor<span style="color: #FF0000;"> @</span></label><br/>
     <input type="hidden" name="provider_id"/>
@@ -27,7 +28,7 @@
         <input type="date" name="vencimento_movimento" required style="width: 150px;"/>
 
         <label for="pagamento_movimento" style="margin-left: 10px;">Pagamento<span style="color: #FF0000;"> $</span></label>
-        <input type="text" name="pagamento_movimento" value="0" id="n2" onblur="calcular();" style="width: 180px;"/>
+        <input type="text" name="pagamento_movimento" value="" id="n2" onblur="calcular();" style="width: 180px;"/>
 
         <label for="valor_movimento" style="margin-left: 15px;">Valor do movimento<span style="color: #FF0000;"> *$</span></label>
         <input type="text" name="valor_movimento" id="resultado" disabled="disabled" style="width: 180px;"/><br><br>

@@ -2,6 +2,14 @@ function calcular() {
     var n1 = parseFloat(document.getElementById('n1').value);
     var n2 = parseFloat(document.getElementById('n2').value);
 
+
+    if(isNaN(n1)){
+        n1 = 0;
+    }
+    if(isNaN(n2)){
+        n2 = 0;
+    }
+
     document.getElementById('resultado').value = (n1 - n2).toFixed(2);
 
 }
@@ -89,6 +97,7 @@ function addProd(obj) {
 $(function(){
 
     $('input[name=total_price]').mask('000.000.000.000.000,00', {reverse:true, placeholder:"0,00"});
+    $('input[name=pagamento_movimento]').mask('000.000.000.000.000.00', {reverse:true, placeholder:"0,00"});
 
     $('.provider_add_button').on('click', function(e){
         e.preventDefault();
