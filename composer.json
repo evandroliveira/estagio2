@@ -1,5 +1,11 @@
 {
-	"require":{
-		"nfephp-org/nfephp":"^4.0"
-	}
+    "require": {
+        "clancats/hydrahon": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "core\\": "core/",
+            "src\\": "src/"
+        }
+    }
 }

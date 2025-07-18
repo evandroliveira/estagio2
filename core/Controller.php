@@ -1,31 +1,41 @@
 <?php
-class controller {
+namespace core;
 
-	protected $db;
+use \src\Config;
 
-	public function __construct() {
-		global $config;
-		$this->db = new PDO("mysql:dbname=".$config['dbname'].";host=".$config['host'], $config['dbuser'], $config['dbpass']);
-	}
-	
-	public function loadView($viewName, $viewData = array()) {
-		extract($viewData);
-		include 'views/'.$viewName.'.php';
-	}
+class Controller {
 
-	public function loadTemplate($viewName, $viewData = array()) {
-		include 'views/template.php';
-	}
+    protected function redirect($url) {
+        header("Location: ".$this->getBaseUrl().$url);
+        exit;
+    }
 
-	public function loadViewInTemplate($viewName, $viewData) {
-		extract($viewData);
-		include 'views/'.$viewName.'.php';
-	}
+    private function getBaseUrl() {
+        $base = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') ? 'https://' : 'http://';
+        $base .= $_SERVER['SERVER_NAME'];
+        if($_SERVER['SERVER_PORT'] != '80') {
+            $base .= ':'.$_SERVER['SERVER_PORT'];
+        }
+        $base .= Config::BASE_DIR;
+        
+        return $base;
+    }
 
-	public function loadLibrary($lib) {
-		if(file_exists('libraries/'.$lib.'.php')) {
-			include 'libraries/'.$lib.'.php';
-		}
-	}
+    private function _render($folder, $viewName, $viewData = []) {
+        if(file_exists('../src/views/'.$folder.'/'.$viewName.'.php')) {
+            extract($viewData);
+            $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
+            $base = $this->getBaseUrl();
+            require '../src/views/'.$folder.'/'.$viewName.'.php';
+        }
+    }
+
+    private function renderPartial($viewName, $viewData = []) {
+        $this->_render('partials', $viewName, $viewData);
+    }
+
+    public function render($viewName, $viewData = []) {
+        $this->_render('pages', $viewName, $viewData);
+    }
 
 }
