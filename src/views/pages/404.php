@@ -54,7 +54,7 @@
         <div class="error-code">404</div>
         <div class="message">Ops! Página não encontrada.</div>
         <div>A página que você procura não existe ou foi removida.</div>
-        <a href="/" class="home-link">Voltar para o início</a>
+        <a href="<?= $base; ?>/" class="home-link">Voltar para o início</a>
     </div>
 </body>
 </html>
