@@ -13,3 +13,5 @@ $router->get('/novo', 'UsuariosController@add');
 $router->post('/novo', 'UsuariosController@addAction');
 
 $router->get('/teste', 'TesteController@index');
+
+$router->get('/produtos', 'ProdutoController@index');

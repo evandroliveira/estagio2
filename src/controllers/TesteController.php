@@ -2,14 +2,15 @@
 namespace src\controllers;
 
 use \core\Controller;
-
+use src\models\Usuario;
 
 
 class TesteController extends Controller {
 
     public function index() {
-        //$this->render('home');
-        echo "Eu estou no teste controller";
+        // Renderiza para a view teste
+        $this->render('teste');
     }
-    
+
+
 }

@@ -17,7 +17,7 @@
         }
     </style>
 </head>
-<body class="relative min-h-screen flex items-center justify-center overflow-hidden">
+<body>     
     <!-- Vídeo de fundo -->
     <div class="absolute inset-0 w-full h-full bg-video z-0">
         <video autoplay muted loop playsinline class="object-cover w-full h-full">
@@ -28,6 +28,7 @@
 
     <!-- Conteúdo centralizado -->
     <div class="relative z-10 flex flex-col items-center justify-center w-full">
+        <br><br><br>
         <h1 class="text-white text-4xl font-bold mb-8 drop-shadow-lg">Galeria de Fotos</h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 w-full max-w-5xl">
             <img src="/backend/src/fotos/foto1.jpg" alt="Foto 1" class="w-40 h-40 object-cover rounded-xl shadow-lg transition-transform hover:scale-105 duration-300 border-4 border-white/30">
